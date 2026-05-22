@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Newsroom — TITAN</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,ital,wght@9..144,0,200;9..144,0,300;9..144,1,200&family=Inter+Tight:wght@200;300;400;500&family=JetBrains+Mono:wght@300;400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/shared-page.css">
+<style>
+.news-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;background:var(--line);border:1px solid var(--line)}
+@media(max-width:860px){.news-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:560px){.news-grid{grid-template-columns:1fr}}
+.news-card{background:var(--white);display:flex;flex-direction:column;overflow:hidden;transition:background .4s;cursor:pointer}
+.news-card:hover{background:#F5F0E8}
+.news-card--featured{grid-column:span 2}
+@media(max-width:860px){.news-card--featured{grid-column:span 1}}
+.news-img{aspect-ratio:16/9;overflow:hidden}
+.news-card--featured .news-img{aspect-ratio:21/9}
+.news-img img{width:100%;height:100%;object-fit:cover;filter:brightness(.85);transition:transform 1.6s var(--ease),filter 1.4s}
+.news-card:hover .news-img img{transform:scale(1.04);filter:brightness(.7)}
+.news-body{padding:clamp(24px,3vh,36px) clamp(24px,3vw,36px) clamp(28px,4vh,44px);flex:1;display:flex;flex-direction:column}
+.news-meta{display:flex;align-items:center;gap:16px;margin-bottom:16px;flex-wrap:wrap}
+.news-cat{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.16em;text-transform:uppercase;color:var(--warm);border:1px solid rgba(201,160,116,.3);padding:4px 10px}
+.news-date{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--gray)}
+.news-title{font-family:'Fraunces',serif;font-size:clamp(20px,2.4vw,30px);font-weight:300;letter-spacing:-.02em;line-height:1.1;margin-bottom:14px;flex:1}
+.news-title em{font-style:italic}
+.news-excerpt{font-size:13px;line-height:1.6;color:rgba(10,10,10,.5);max-width:52ch;margin-bottom:24px}
+.news-link{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--black);display:flex;align-items:center;gap:10px;margin-top:auto;border-bottom:1px solid var(--line);padding-bottom:4px;align-self:flex-start;transition:gap .3s var(--ease2),border-color .3s}
+.news-card:hover .news-link{gap:16px;border-color:var(--warm)}
+.news-link svg{width:12px;height:12px}
+
+.press-list{display:flex;flex-direction:column;gap:0}
+.press-item{display:flex;align-items:center;justify-content:space-between;padding:24px 0;border-bottom:1px solid var(--line-d);gap:20px;flex-wrap:wrap;transition:background .3s;cursor:pointer}
+.press-item:last-child{border-bottom:none}
+.press-item:hover .press-name{color:var(--warm)}
+.press-pub{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--warm);min-width:100px}
+.press-name{font-size:clamp(15px,1.4vw,18px);color:rgba(245,243,238,.8);transition:color .3s;flex:1}
+.press-date{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.25)}
+</style>
+</head>
+<body>
+<div id="spb"></div>
+<nav>
+  <a href="index.html" class="brand"><span class="bdot"></span>TITAN</a>
+  <ul class="nlinks">
+    <li><a href="technology.html">Technology</a></li>
+    <li><a href="projects.html">Projects</a></li>
+    <li><a href="build.html">Build</a></li>
+    <li><a href="company.html">Company</a></li>
+  </ul>
+  <a href="contact.html" class="ncta">Reserve a Build</a>
+</nav>
+
+<section class="page-hero">
+  <div class="page-hero-bg"><img src="images/detail_2.webp" alt="Newsroom"></div>
+  <div class="page-hero-content">
+    <div class="page-hero-tag">04 / Newsroom</div>
+    <h1 class="page-hero-h rl"><span>Field notes,<br><em>research, press.</em></span></h1>
+    <div class="page-hero-meta">
+      <div class="page-hero-stat"><span>Latest</span><b>May 2026</b></div>
+      <div class="page-hero-stat"><span>Press mentions</span><b>24 Publications</b></div>
+    </div>
+  </div>
+</section>
+
+<!-- NEWS GRID -->
+<section class="s s--light">
+  <div class="inner">
+    <div class="ey r" style="margin-bottom:clamp(40px,6vh,72px)">— Latest Updates</div>
+    <div class="news-grid">
+      <div class="news-card news-card--featured r">
+        <div class="news-img"><img src="images/project_1.webp" alt=""></div>
+        <div class="news-body">
+          <div class="news-meta"><span class="news-cat">Research</span><span class="news-date">12 May 2026</span></div>
+          <div class="news-title">TITAN-X prints its largest structure to date — a 5,000 sq ft <em>private estate</em> in Abu Dhabi in 14 days.</div>
+          <div class="news-excerpt">Our latest commission marks a new record for the TITAN-X system. The Abu Dhabi Estate pushed the boundaries of what monolithic mineral concrete printing can achieve at scale.</div>
+          <span class="news-link">Read more <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14M13 5l7 7-7 7"/></svg></span>
+        </div>
+      </div>
+      <div class="news-card r d1">
+        <div class="news-img"><img src="images/detail_1.webp" alt=""></div>
+        <div class="news-body">
+          <div class="news-meta"><span class="news-cat">Technology</span><span class="news-date">28 Apr 2026</span></div>
+          <div class="news-title">BuildOS v3 — <em>real-time</em> layer verification and 40% faster path generation.</div>
+          <div class="news-excerpt">Our third major BuildOS release brings real-time scanning and automated correction. Path generation time drops from 3.5 hours to under 2.</div>
+          <span class="news-link">Read more <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14M13 5l7 7-7 7"/></svg></span>
+        </div>
+      </div>
+      <div class="news-card r d2">
+        <div class="news-img"><img src="images/project_2.webp" alt=""></div>
+        <div class="news-body">
+          <div class="news-meta"><span class="news-cat">Project</span><span class="news-date">15 Mar 2026</span></div>
+          <div class="news-title">Sharjah Housing — <em>48 units</em> completed, each in under 7 days.</div>
+          <div class="news-excerpt">Our most ambitious community housing project to date. 48 individual units, each printed in an average of 6.8 days. The full development was complete within 4 months.</div>
+          <span class="news-link">Read more <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14M13 5l7 7-7 7"/></svg></span>
+        </div>
+      </div>
+      <div class="news-card r">
+        <div class="news-img"><img src="images/system.webp" alt=""></div>
+        <div class="news-body">
+          <div class="news-meta"><span class="news-cat">Research</span><span class="news-date">01 Feb 2026</span></div>
+          <div class="news-title">White paper: <em>mineral concrete</em> durability after 18 months in Gulf climate.</div>
+          <span class="news-link">Read more <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14M13 5l7 7-7 7"/></svg></span>
+        </div>
+      </div>
+      <div class="news-card r d1">
+        <div class="news-img"><img src="images/detail_3.webp" alt=""></div>
+        <div class="news-body">
+          <div class="news-meta"><span class="news-cat">Press</span><span class="news-date">12 Jan 2026</span></div>
+          <div class="news-title">TITAN featured in <em>Dezeen</em> — "The future of Gulf construction is being printed."</div>
+          <span class="news-link">Read on Dezeen <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14M13 5l7 7-7 7"/></svg></span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRESS -->
+<section class="s s--dark">
+  <div class="inner">
+    <div class="ey ey--light r" style="margin-bottom:clamp(40px,6vh,72px)">— Press Coverage</div>
+    <div class="press-list">
+      <div class="press-item r"><span class="press-pub">Dezeen</span><span class="press-name">"The future of Gulf construction is being printed"</span><span class="press-date">Jan 2026</span></div>
+      <div class="press-item r d1"><span class="press-pub">Architectural Digest</span><span class="press-name">"TITAN is rewriting the rules of residential architecture in the UAE"</span><span class="press-date">Dec 2025</span></div>
+      <div class="press-item r d2"><span class="press-pub">The National</span><span class="press-name">"Dubai startup prints an entire villa in under 9 days"</span><span class="press-date">Nov 2025</span></div>
+      <div class="press-item r d3"><span class="press-pub">Arabian Business</span><span class="press-name">"3D-printed homes: TITAN targets 10,000 Gulf structures by 2030"</span><span class="press-date">Oct 2025</span></div>
+      <div class="press-item r d4"><span class="press-pub">Bloomberg</span><span class="press-name">"The Gulf's housing crisis has a new answer — and it prints concrete"</span><span class="press-date">Sep 2025</span></div>
+    </div>
+    <div class="r d4" style="margin-top:clamp(40px,6vh,72px)">
+      <a href="contact.html" class="btn btn--ghost" style="font-size:11px">Press Enquiries <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14M13 5l7 7-7 7"/></svg></a>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="s s--light cta-band">
+  <div class="ey r" style="justify-content:center;margin-bottom:24px">— Stay Updated</div>
+  <h2 class="cta-hl rl r"><span>Get TITAN<br><em>updates.</em></span></h2>
+  <p class="cta-p r d1">Field notes from the print floor, research papers, and project announcements — direct to your inbox.</p>
+  <form style="display:flex;gap:0;max-width:440px;margin:0 auto;position:relative;z-index:2;border:1px solid var(--black)" class="r d2" id="newsForm">
+    <input type="email" placeholder="Your email" style="flex:1;background:transparent;border:0;padding:16px 20px;font-family:'Inter Tight',sans-serif;font-size:15px;outline:0;color:var(--black)">
+    <button type="submit" style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.14em;text-transform:uppercase;background:var(--black);color:var(--white);border:0;padding:16px 24px;cursor:pointer;transition:background .3s">Subscribe</button>
+  </form>
+</section>
+
+<footer class="footer">
+  <div class="ftop">
+    <div><div class="fbrand"><span class="bdot"></span>TITAN</div><p class="ftag">Intelligent machines building humanity's future. Headquartered in Dubai, UAE.</p></div>
+    <div class="fcol"><h4>Discover</h4><ul><li><a href="technology.html">Technology</a></li><li><a href="build.html">Build</a></li><li><a href="projects.html">Projects</a></li><li><a href="newsroom.html">Newsroom</a></li></ul></div>
+    <div class="fcol"><h4>Company</h4><ul><li><a href="company.html">About</a></li><li><a href="newsroom.html">Press</a></li><li><a href="contact.html">Partners</a></li><li><a href="contact.html">Contact</a></li></ul></div>
+    <div class="fcol"><h4>Newsletter</h4><form class="fnl"><input type="email" placeholder="Your email"><button type="submit">Subscribe →</button></form><h4 style="margin-top:24px">Reach Us</h4><p style="font-size:13px;color:rgba(255,255,255,.38);line-height:1.7;margin-top:12px">Dubai Design District<br>Building 6, Dubai, UAE</p></div>
+  </div>
+  <div class="fbot">
+    <span class="fcopy">© 2026 TITAN — Intelligent Machines Building Humanity's Future</span>
+    <div class="fsoc">
+      <a href="#"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.32 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.79M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z"/></svg></a>
+      <a href="#"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="4"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.5" fill="currentColor"/></svg></a>
+      <a href="#"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M21.58 7.19c-.23-.86-.91-1.54-1.77-1.77C18.25 5 12 5 12 5s-6.25 0-7.81.42c-.86.23-1.54.91-1.77 1.77C2 8.75 2 12 2 12s0 3.25.42 4.81c.23.86.91 1.54 1.77 1.77C5.75 19 12 19 12 19s6.25 0 7.81-.42c.86-.23 1.54-.91 1.77-1.77C22 15.25 22 12 22 12s0-3.25-.42-4.81M10 15V9l5.2 3-5.2 3z"/></svg></a>
+    </div>
+  </div>
+</footer>
+<script src="assets/shared-page.js"></script>
+</body>
+</html>
