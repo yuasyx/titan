@@ -1,0 +1,937 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>TITAN — Intelligent Machines for Architecture, Dubai</title>
+<meta name="description" content="TITAN designs and prints intelligent architecture for the Gulf.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,ital,wght@9..144,0,200;9..144,0,300;9..144,1,200;9..144,1,300&family=Inter+Tight:wght@200;300;400;500&family=JetBrains+Mono:wght@300;400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --white:#FAFAF8;--black:#0A0A0A;--warm:#C9A074;--warm2:#A5814F;
+  --gray:#888884;--line:rgba(10,10,10,0.09);
+  --ease:cubic-bezier(0.76,0,0.24,1);--ease2:cubic-bezier(0.16,1,0.3,1);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{font-size:16px;-webkit-font-smoothing:antialiased}
+
+/* НАТИВНЫЙ СКРОЛЛ — sticky работает */
+html,body{width:100%;height:100%;background:var(--white);color:var(--black);font-family:'Inter Tight',system-ui,sans-serif}
+body{overflow-x:hidden;overflow-y:scroll}
+
+/* Кастомный плавный скролл через Lenis-подход без transform */
+html{scroll-behavior:auto}
+
+/* CURSOR */
+
+
+
+/* PROGRESS */
+#spb{position:fixed;top:0;left:0;height:2px;width:0;background:linear-gradient(90deg,var(--warm),var(--warm2));z-index:200;pointer-events:none;transition:width .1s linear}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:28px 52px;display:flex;align-items:center;justify-content:space-between;mix-blend-mode:difference}
+.brand{font-family:'Fraunces',serif;font-size:22px;font-weight:300;letter-spacing:-.02em;color:var(--white);text-decoration:none;display:flex;align-items:baseline;gap:8px}
+.bdot{width:5px;height:5px;border-radius:50%;background:var(--warm);display:inline-block}
+.nlinks{display:flex;gap:40px;list-style:none}
+.nlinks a{font-size:11px;font-weight:400;letter-spacing:.14em;text-transform:uppercase;color:var(--white);text-decoration:none;opacity:.6;transition:opacity .3s}
+.nlinks a:hover{opacity:1}
+.ncta{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--white);border:1px solid rgba(255,255,255,.35);padding:10px 20px;text-decoration:none;transition:border-color .3s,background .3s,color .3s}
+.ncta:hover{border-color:var(--white);background:var(--white);color:var(--black)}
+
+/* SECTIONS */
+.s{position:relative;width:100%;overflow:hidden}
+.s--full{height:100vh}
+.s--auto{min-height:100vh}
+.s--light{background:var(--white);color:var(--black)}
+.s--dark{background:var(--black);color:var(--white)}
+
+/* ══ HERO ══ */
+.hero{height:100vh;display:flex;align-items:center;justify-content:center}
+.hero-bg{position:absolute;inset:0;z-index:0;overflow:hidden}
+.hero-bg img{width:100%;height:100%;object-fit:cover;filter:brightness(.42) contrast(1.1);transform:scale(1.08);will-change:transform}
+.hero.loaded .hero-bg img{transform:scale(1.12)}
+.hero-bg::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.3) 0%,transparent 40%,rgba(0,0,0,.65) 100%)}
+
+/* Giant letters */
+.hero-letters{position:absolute;inset:0;z-index:2;pointer-events:none}
+.hl{
+  font-family:'Inter Tight',sans-serif;
+  font-weight:200;line-height:1;letter-spacing:-.04em;
+  color:var(--white);position:absolute;
+  opacity:0;transition:opacity 1s var(--ease2),transform 1.3s var(--ease2);
+  user-select:none;
+}
+/* T — строго левый нижний */
+.hl-t{
+  font-size:clamp(140px,20vw,320px);
+  left:0; bottom:0;
+  transform:translateX(-80px);
+}
+/* I — строго по центру снизу */
+.hl-i{
+  font-size:clamp(80px,11vw,180px);
+  left:50%; bottom:0;
+  transform:translateX(-50%) translateY(60px);
+}
+/* N — строго правый нижний */
+.hl-n{
+  font-size:clamp(140px,20vw,320px);
+  right:0; bottom:0;
+  transform:translateX(80px);
+}
+/* AN скрываем — не нужен */
+.hl-x{ display:none; }
+
+.hero.loaded .hl{opacity:1}
+.hero.loaded .hl-t{transform:translateX(0)}
+.hero.loaded .hl-i{transform:translateX(-50%) translateY(0)}
+.hero.loaded .hl-n{transform:translateX(0)}
+
+.hl-t{transition-delay:.05s}
+.hl-i{transition-delay:.15s}
+.hl-n{transition-delay:.09s}
+
+.hero-mid{position:relative;z-index:3;text-align:center;will-change:transform,opacity}
+.hero-tag{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:rgba(255,255,255,.65);margin-bottom:18px}
+.hero-tit{font-family:'Fraunces',serif;font-size:clamp(18px,2vw,28px);font-weight:200;letter-spacing:-.01em;color:var(--white);line-height:1.35}
+.hero-bot{position:absolute;bottom:0;left:0;right:0;z-index:4;display:flex;justify-content:space-between;align-items:flex-end;padding:40px 52px;will-change:opacity}
+.hstats{display:flex;gap:48px}
+.hstat{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.13em;text-transform:uppercase;color:rgba(255,255,255,.5);display:flex;flex-direction:column;gap:5px}
+.hstat b{color:var(--white);font-weight:400}
+.scr{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.45);display:flex;align-items:center;gap:10px;animation:bob 2s ease-in-out infinite}
+.scr svg{width:16px;height:16px}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(7px)}}
+
+/* ══ MANIFESTO ══ */
+.manifesto{display:grid;grid-template-columns:1fr 1fr}
+.man-sticky{position:sticky;top:0;height:100vh;display:flex;align-items:center;padding:0 80px;overflow:hidden}
+.man-lbl{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--gray);margin-bottom:40px;display:flex;align-items:center;gap:16px}
+.man-lbl::before{content:'';width:22px;height:1px;background:var(--warm)}
+.man-h{font-family:'Fraunces',serif;font-size:clamp(40px,5.8vw,82px);font-weight:200;letter-spacing:-.035em;line-height:.93;font-variation-settings:"opsz" 144}
+.man-h em{font-style:italic;color:var(--warm)}
+.man-scroll{padding:100px 80px;display:flex;flex-direction:column;justify-content:center;gap:48px}
+.man-p{font-size:clamp(15px,1.15vw,18px);line-height:1.72;color:rgba(10,10,10,.6);max-width:46ch}
+
+/* ══ PRINT SEQUENCE ══ */
+.print-outer{position:relative}
+.print-sticky{position:sticky;top:0;height:100vh;display:grid;grid-template-columns:1fr 1fr;background:var(--black);overflow:hidden}
+.print-sticky::before{content:'';position:absolute;inset:0;background-image:linear-gradient(rgba(100,160,220,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(100,160,220,.05) 1px,transparent 1px);background-size:40px 40px;opacity:0;transition:opacity 1s var(--ease2);pointer-events:none}
+.print-sticky.bp::before{opacity:1}
+.print-left{position:relative;overflow:hidden}
+.pstep{position:absolute;inset:0;padding:80px 72px;display:flex;flex-direction:column;justify-content:center;color:var(--white);opacity:0;transition:opacity .55s var(--ease2);pointer-events:none}
+.pstep.on{opacity:1;pointer-events:auto}
+.snum{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--warm);margin-bottom:24px;display:flex;align-items:center;gap:14px}
+.snum::before{content:'';width:16px;height:1px;background:var(--warm)}
+.stit{font-family:'Fraunces',serif;font-weight:200;font-size:clamp(48px,7vw,92px);line-height:.9;letter-spacing:-.04em;margin-bottom:28px;font-variation-settings:"opsz" 144}
+.stit em{font-style:italic;color:var(--warm)}
+.sbod{font-size:clamp(14px,1.1vw,17px);line-height:1.7;color:rgba(245,243,238,.58);max-width:40ch;margin-bottom:36px}
+.sspecs{display:flex;flex-direction:column}
+.spec{display:flex;align-items:center;gap:14px;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:rgba(245,243,238,.3);padding:11px 0;border-bottom:1px solid rgba(255,255,255,.06);transition:color .4s}
+.spec.on{color:var(--warm)}
+.sdot2{width:7px;height:7px;border-radius:50%;border:1px solid currentColor;flex-shrink:0;transition:background .4s,transform .4s}
+.spec.on .sdot2{background:var(--warm);transform:scale(1.5)}
+.print-right{display:flex;align-items:center;justify-content:center;position:relative;border-left:1px solid rgba(255,255,255,.07)}
+#hsvg{width:min(88%,520px);height:auto;overflow:visible}
+.svgl{opacity:0;transition:opacity .8s var(--ease2)}
+.svgl.on{opacity:1}
+.pdots{position:absolute;bottom:38px;left:50%;transform:translateX(-50%);display:flex;gap:10px;z-index:10}
+.pdot{width:6px;height:6px;border-radius:50%;border:1px solid rgba(255,255,255,.22);background:transparent;transition:background .4s,border-color .4s,transform .3s}
+.pdot.on{background:var(--warm);border-color:var(--warm);transform:scale(1.4)}
+
+/* ══ PROJECTS ══ */
+.proj-sec{background:var(--white);padding-bottom:clamp(80px,12vh,140px)}
+.proj-head{padding:clamp(80px,12vh,140px) clamp(40px,5vw,80px) 0;display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:32px;margin-bottom:clamp(56px,8vh,96px)}
+.proj-hl{font-family:'Fraunces',serif;font-size:clamp(52px,9vw,130px);font-weight:200;letter-spacing:-.045em;line-height:.88;font-variation-settings:"opsz" 144}
+.proj-hl em{font-style:italic}
+.proj-sub{font-size:clamp(14px,1.1vw,17px);line-height:1.65;color:rgba(10,10,10,.55);max-width:38ch;align-self:flex-end}
+.proj-strip{display:flex;gap:2px;padding:0 clamp(40px,5vw,80px);overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+.proj-strip::-webkit-scrollbar{display:none}
+.pcard{flex:0 0 clamp(280px,30vw,440px);height:clamp(360px,52vh,580px);position:relative;overflow:hidden;background:var(--black);text-decoration:none;color:var(--white);display:block;}
+.pcard-img{width:100%;height:100%;object-fit:cover;transition:transform 1.6s var(--ease),filter 1.6s;filter:brightness(.6)}
+.pcard:hover .pcard-img{transform:scale(1.06);filter:brightness(.42)}
+.pcard-body{position:absolute;bottom:0;left:0;right:0;padding:40px 36px 36px;background:linear-gradient(transparent,rgba(0,0,0,.7))}
+.pcard-n{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:rgba(255,255,255,.45);margin-bottom:12px}
+.pcard-t{font-family:'Fraunces',serif;font-size:clamp(24px,2.8vw,38px);font-weight:300;letter-spacing:-.02em;line-height:1.05;margin-bottom:10px}
+.pcard-t em{font-style:italic}
+.pcard-d{font-size:13px;color:rgba(255,255,255,.5);line-height:1.55;max-width:36ch;opacity:0;transform:translateY(10px);transition:opacity .4s var(--ease2),transform .4s var(--ease2)}
+.pcard:hover .pcard-d{opacity:1;transform:none}
+.pcard-arr{position:absolute;top:26px;right:26px;width:38px;height:38px;border:1px solid rgba(255,255,255,.22);display:flex;align-items:center;justify-content:center;opacity:0;transform:translateX(-8px);transition:opacity .4s,transform .4s var(--ease2)}
+.pcard:hover .pcard-arr{opacity:1;transform:none}
+.pcard-arr svg{width:15px;height:15px}
+
+/* ══ MATERIAL ══ */
+.material{display:grid;grid-template-columns:1fr 1fr;min-height:100vh}
+.mat-img{position:relative;overflow:hidden;min-height:100vh}
+.mat-img img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.mat-content{display:flex;flex-direction:column;justify-content:center;padding:clamp(60px,10vh,120px) clamp(60px,7vw,100px);background:var(--black);color:var(--white)}
+.mat-lbl{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--warm);margin-bottom:40px;display:flex;align-items:center;gap:14px}
+.mat-lbl::before{content:'';width:16px;height:1px;background:var(--warm)}
+.mat-h{font-family:'Fraunces',serif;font-size:clamp(42px,6vw,80px);font-weight:200;letter-spacing:-.038em;line-height:.93;margin-bottom:36px;font-variation-settings:"opsz" 144}
+.mat-h em{font-style:italic;color:var(--warm)}
+.mat-p{font-size:clamp(14px,1.1vw,17px);line-height:1.7;color:rgba(245,243,238,.58);max-width:44ch;margin-bottom:56px}
+.mspecs{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.08)}
+.msp{padding:28px 24px;background:var(--black);transition:background .3s}
+.msp:hover{background:rgba(255,255,255,.04)}
+.msp-v{font-family:'Fraunces',serif;font-size:clamp(32px,4vw,52px);font-weight:200;letter-spacing:-.03em;line-height:1;margin-bottom:8px;transition:color .3s}
+.msp:hover .msp-v{color:var(--warm)}
+.msp-u{font-family:'JetBrains Mono',monospace;font-size:.38em;color:var(--gray);vertical-align:super}
+.msp-l{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--gray)}
+
+/* ══ STATS ══ */
+.stats-s{display:flex;flex-direction:column;justify-content:center;padding:clamp(100px,16vh,180px) clamp(40px,5vw,80px);background:var(--black);color:var(--white);min-height:100vh}
+.stats-hd{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:clamp(60px,10vh,100px);flex-wrap:wrap;gap:20px}
+.stats-hl{font-family:'Fraunces',serif;font-size:clamp(42px,6.5vw,88px);font-weight:200;letter-spacing:-.04em;line-height:.93;font-variation-settings:"opsz" 144}
+.stats-hl em{font-style:italic;color:var(--warm)}
+.stats-sub{font-size:14px;color:rgba(255,255,255,.38);max-width:32ch;line-height:1.65;align-self:flex-end}
+.sgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.07)}
+@media(max-width:800px){.sgrid{grid-template-columns:repeat(2,1fr)}}
+.stt{background:var(--black);padding:clamp(32px,5vh,56px) clamp(24px,3vw,40px);position:relative;overflow:hidden;transition:background .4s;cursor:default}
+.stt:hover{background:rgba(255,255,255,.03)}
+.stt::before{content:'';position:absolute;left:0;top:0;bottom:0;width:2px;background:var(--warm);transform:scaleY(0);transform-origin:bottom;transition:transform .6s var(--ease2)}
+.stt:hover::before{transform:scaleY(1)}
+.stt-n{font-family:'Fraunces',serif;font-size:clamp(52px,7.5vw,100px);font-weight:200;letter-spacing:-.04em;line-height:.9;display:flex;align-items:baseline;gap:4px;margin-bottom:14px;transition:color .3s}
+.stt:hover .stt-n{color:var(--warm)}
+.stt-u{font-family:'JetBrains Mono',monospace;font-size:.3em;color:var(--gray);text-transform:uppercase;letter-spacing:.06em}
+.stt-l{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--gray);max-width:18ch}
+
+/* ══ CTA ══ */
+.cta-s{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:clamp(80px,14vh,160px) clamp(40px,5vw,80px);background:var(--white);color:var(--black);position:relative;overflow:hidden}
+.cta-s::before{content:'';position:absolute;inset:0;background-image:repeating-linear-gradient(0deg,transparent 0 47px,var(--line) 47px 48px),repeating-linear-gradient(90deg,transparent 0 47px,var(--line) 47px 48px);pointer-events:none}
+.cta-tag{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--gray);margin-bottom:32px;position:relative;z-index:2}
+.cta-hl{font-family:'Fraunces',serif;font-size:clamp(60px,13vw,180px);font-weight:200;letter-spacing:-.05em;line-height:.88;margin-bottom:36px;font-variation-settings:"opsz" 144;position:relative;z-index:2}
+.cta-hl em{font-style:italic;color:var(--warm)}
+.cta-p{font-size:clamp(15px,1.2vw,18px);line-height:1.65;color:rgba(10,10,10,.48);max-width:42ch;margin-bottom:56px;position:relative;z-index:2}
+.cta-btn{display:inline-flex;align-items:center;gap:16px;padding:20px 40px;background:var(--black);color:var(--white);font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.16em;text-transform:uppercase;text-decoration:none;position:relative;overflow:hidden;z-index:2;transition:gap .4s var(--ease2);border:1px solid var(--black);}
+.cta-btn::after{content:'';position:absolute;inset:0;background:var(--warm);transform:scaleX(0);transform-origin:left;transition:transform .5s var(--ease2);z-index:-1}
+.cta-btn:hover{gap:26px;border-color:var(--warm)}
+.cta-btn:hover::after{transform:scaleX(1)}
+.cta-btn svg{width:14px;height:14px}
+
+/* ══ FOOTER ══ */
+.footer{background:var(--black);color:var(--white);padding:clamp(60px,10vh,100px) clamp(40px,5vw,80px) 40px;border-top:1px solid rgba(255,255,255,.07)}
+.ftop{display:grid;grid-template-columns:1.4fr 1fr 1fr 1.4fr;gap:clamp(32px,5vw,80px);padding-bottom:clamp(40px,7vh,80px);border-bottom:1px solid rgba(255,255,255,.07)}
+@media(max-width:900px){.ftop{grid-template-columns:1fr 1fr}}
+.fbrand{font-family:'Fraunces',serif;font-size:34px;font-weight:300;letter-spacing:-.02em;margin-bottom:16px;display:flex;align-items:baseline;gap:10px}
+.ftag{font-size:13px;color:rgba(255,255,255,.32);line-height:1.6;max-width:28ch}
+.fcol h4{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.28);margin-bottom:20px}
+.fcol ul{list-style:none;display:flex;flex-direction:column;gap:10px}
+.fcol a{font-size:13px;color:rgba(255,255,255,.52);text-decoration:none;transition:color .25s}
+.fcol a:hover{color:var(--white)}
+.fnl{display:flex;border-bottom:1px solid rgba(255,255,255,.18);padding-bottom:8px;margin-bottom:20px}
+.fnl input{flex:1;background:transparent;border:0;outline:0;color:var(--white);font-family:'Inter Tight',sans-serif;font-size:13px;padding:6px 0}
+.fnl input::placeholder{color:rgba(255,255,255,.22)}
+.fnl button{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.14em;text-transform:uppercase;background:none;border:0;color:rgba(255,255,255,.45);cursor:pointer;transition:color .25s}
+.fnl button:hover{color:var(--white)}
+.fbot{display:flex;justify-content:space-between;align-items:center;padding-top:32px;flex-wrap:wrap;gap:16px}
+.fcopy{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.22)}
+.fsoc{display:flex;gap:12px}
+.fsoc a{width:34px;height:34px;border:1px solid rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,.38);text-decoration:none;transition:border-color .3s,color .3s;}
+.fsoc a:hover{border-color:var(--warm);color:var(--warm)}
+.fsoc svg{width:14px;height:14px}
+
+/* REVEAL */
+.r{opacity:0;transform:translateY(36px);transition:opacity .9s var(--ease2),transform .9s var(--ease2)}
+.r.v{opacity:1;transform:none}
+.r.d1{transition-delay:.08s}.r.d2{transition-delay:.16s}.r.d3{transition-delay:.24s}.r.d4{transition-delay:.32s}
+.rl{overflow:hidden;display:block}
+.rl>span{display:block;transform:translateY(106%);transition:transform 1.1s var(--ease2)}
+.rl.v>span{transform:none}
+
+/* Плавный скролл через CSS — работает с sticky! */
+@media(prefers-reduced-motion:no-preference){
+  html{scroll-behavior:smooth}
+}
+
+@keyframes pgIn{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+body{animation:pgIn .8s var(--ease2) both}
+::selection{background:var(--warm);color:#fff}
+
+@media(max-width:860px){
+  .manifesto,.material{grid-template-columns:1fr}
+  .man-sticky{position:relative;height:auto;padding:60px 40px}
+  .man-scroll{padding:40px}
+  .print-sticky{grid-template-columns:1fr}
+  .mat-img{min-height:55vw}
+  .nlinks{display:none}
+  .ftop{grid-template-columns:1fr 1fr}
+}
+
+/* ════════════════════════════════════════
+   MOBILE & TABLET — Full responsive
+   ════════════════════════════════════════ */
+
+/* ── TABLET (≤1024px) ── */
+@media(max-width:1024px){
+  /* Nav */
+  .nlinks{gap:24px}
+  .ncta{display:none}
+
+  /* Hero letters — smaller */
+  .hl-t,.hl-n{font-size:clamp(100px,18vw,240px)}
+  .hl-i{font-size:clamp(60px,10vw,140px)}
+
+  /* Print sequence — stack */
+  .print-sticky{grid-template-columns:1fr}
+  .pstep{padding:60px 48px}
+  #hsvg{width:min(70%,380px)}
+  .print-right{min-height:50vw}
+}
+
+/* ── MOBILE (≤768px) ── */
+@media(max-width:768px){
+
+  /* NAV */
+  nav{padding:20px 24px}
+  .nlinks{display:none}
+  .ncta{display:none}
+
+  /* HERO */
+  .hero-bot{padding:24px 24px 32px;flex-direction:column;align-items:flex-start;gap:20px}
+  .hstats{gap:20px;flex-wrap:wrap}
+  .hstat{font-size:9px}
+  .hero-mid{padding:0 20px}
+  .hero-tag{font-size:9px;letter-spacing:.16em}
+  .hero-tit{font-size:clamp(16px,4.5vw,22px)}
+
+  /* Hero letters — mobile */
+  .hl-t,.hl-n{font-size:clamp(72px,20vw,160px)}
+  .hl-i{font-size:clamp(44px,12vw,90px)}
+  .hl-x{display:none}
+
+  /* MANIFESTO */
+  .manifesto{grid-template-columns:1fr;height:auto !important}
+  .man-sticky{position:relative !important;height:auto;padding:60px 24px 40px}
+  .man-h{font-size:clamp(36px,8vw,56px)}
+  .man-scroll{padding:0 24px 60px;gap:32px}
+  .man-p{font-size:15px}
+
+  /* PRINT SEQUENCE */
+  .print-sticky{grid-template-columns:1fr;height:auto;position:relative}
+  .print-outer{height:auto !important}
+  .pstep{position:relative !important;padding:48px 24px;opacity:1 !important;pointer-events:auto !important}
+  .pstep:not(.on){display:none}
+  .stit{font-size:clamp(36px,8vw,56px)}
+  .print-right{min-height:280px;border-left:none;border-top:1px solid rgba(255,255,255,.07)}
+  #hsvg{width:min(85%,320px)}
+  .pdots{bottom:16px}
+
+  /* MATERIAL PERFORMANCE */
+  #s-material > div{padding:60px 24px}
+  #s-material [style*="grid-template-columns:repeat(4"]{
+    grid-template-columns:repeat(2,1fr) !important
+  }
+  #s-material [style*="grid-template-columns:1fr 1fr"]{
+    grid-template-columns:1fr !important
+  }
+
+  /* PROJECTS */
+  .proj-head{padding:60px 24px 0}
+  .proj-hl{font-size:clamp(44px,10vw,72px)}
+  .proj-strip{padding:0 24px 60px;gap:2px}
+  .pcard{flex:0 0 80vw}
+
+  /* MATERIAL SPLIT */
+  .material{grid-template-columns:1fr !important}
+  .mat-img{min-height:60vw}
+  .mat-content{padding:48px 24px}
+  .mspecs{grid-template-columns:1fr 1fr}
+
+  /* STATS */
+  .stats-s{padding:60px 24px}
+  .sgrid{grid-template-columns:repeat(2,1fr) !important}
+  .stt-n{font-size:clamp(40px,9vw,72px)}
+
+  /* CTA */
+  .cta-s{padding:80px 24px}
+  .cta-hl{font-size:clamp(48px,11vw,80px)}
+
+  /* FOOTER */
+  .footer{padding:48px 24px 32px}
+  .ftop{grid-template-columns:1fr !important;gap:36px}
+  .fbot{flex-direction:column;align-items:flex-start;gap:20px}
+
+  /* VIDEO MODAL */
+  #videoModal > div > div{padding:12px}
+  #videoModal [style*="max-width:1000px"]{max-width:100%}
+
+  /* GENERAL */
+  .s--full{height:100svh}
+}
+
+/* ── SMALL MOBILE (≤480px) ── */
+@media(max-width:480px){
+  .hl-t,.hl-n{font-size:clamp(56px,16vw,110px)}
+  .hl-i{font-size:clamp(34px,10vw,70px)}
+  .hero-tit{font-size:16px}
+  .man-h{font-size:clamp(30px,7vw,44px)}
+  .proj-hl{font-size:clamp(36px,9vw,56px)}
+  .cta-hl{font-size:clamp(38px,10vw,60px)}
+  #s-material [style*="grid-template-columns:repeat(4"]{
+    grid-template-columns:1fr 1fr !important
+  }
+  .mspecs{grid-template-columns:1fr}
+  .pcard{flex:0 0 88vw}
+  .hstats{gap:14px}
+  nav{padding:16px 20px}
+}
+
+/* ── LANDSCAPE MOBILE ── */
+@media(max-width:768px) and (orientation:landscape){
+  .hero{height:100svh}
+  .hl-t,.hl-n{font-size:clamp(60px,14vh,120px)}
+  .hl-i{font-size:clamp(40px,9vh,80px)}
+  .hero-bot{padding:16px 24px}
+}
+
+</style>
+</head>
+<body>
+
+
+<div id="spb"></div>
+
+<nav>
+  <a href="index.html" class="brand"><span class="bdot"></span>TITAN</a>
+  <ul class="nlinks">
+    <li><a href="technology.html">Technology</a></li>
+    <li><a href="projects.html">Projects</a></li>
+    <li><a href="build.html">Build</a></li>
+    <li><a href="company.html">Company</a></li>
+  </ul>
+  <a href="contact.html" class="ncta">Reserve a Build</a>
+</nav>
+
+<!-- S1 HERO -->
+<section class="s hero s--dark" id="hero">
+  <div class="hero-bg"><img src="images/hero.webp" alt="" id="hbg"></div>
+  <div class="hero-letters" aria-hidden="true">
+    <span class="hl hl-t">T</span>
+    <span class="hl hl-i">I</span>
+    <span class="hl hl-n">N</span>
+  </div>
+  <div class="hero-mid">
+    <div class="hero-tag">3D Printed Architecture — Dubai, UAE</div>
+    <div class="hero-tit">Intelligent Machines.<br>Architecture for Humanity.</div>
+  </div>
+  <div class="hero-bot">
+    <div class="hstats">
+      <div class="hstat"><span>System</span><b>TITAN-X / 2026</b></div>
+      <div class="hstat"><span>Print time</span><b>7 Days / 2,500 sq ft</b></div>
+      <div class="hstat"><span>Status</span><b>Reservations Open</b></div>
+    </div>
+    <div class="scr">Scroll<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 5v14M5 12l7 7 7-7"/></svg></div>
+  </div>
+</section>
+
+<!-- S2 MANIFESTO -->
+<section class="s s--light" id="s2" style="height:180vh">
+  <div class="manifesto" style="height:100%">
+    <div class="man-sticky">
+      <div>
+        <div class="man-lbl r">— Our Vision</div>
+        <h2 class="man-h rl"><span>The future<br>of homes is<br><em>printed.</em></span></h2>
+      </div>
+    </div>
+    <div class="man-scroll">
+      <p class="man-p r">We design and build architecture for humanity. TITAN equips builders with technology to construct better, faster, and at lower cost — from the deserts of the UAE to the skyline of Dubai.</p>
+      <p class="man-p r d1">The TITAN-X robotic gantry deposits mineral concrete in precise horizontal passes, 15mm at a time. No formwork. No cranes. Just two technicians and a machine that never stops.</p>
+      <p class="man-p r d2">The result is a home with 40MPa compressive strength, zero construction waste, and a structural life exceeding one hundred years — ready in seven days.</p>
+    </div>
+  </div>
+</section>
+
+<!-- S3 HOW WE PRINT -->
+<div class="print-outer" id="s3" style="height:300vh">
+  <div class="print-sticky" id="psticky">
+    <div class="print-left">
+      <div class="pstep on" data-s="0">
+        <div class="snum">— How we print / 01</div>
+        <div class="stit">Foundation<br><em>Slab</em></div>
+        <div class="sbod">The TITAN-X gantry begins at ground level, depositing a 300mm reinforced mineral concrete foundation. Zero formwork. Zero cranes.</div>
+        <div class="sspecs">
+          <div class="spec on"><span class="sdot2"></span>Depth — 300mm</div>
+          <div class="spec on"><span class="sdot2"></span>Mix — TITAN Mineral M1</div>
+          <div class="spec"><span class="sdot2"></span>Cure time — 4 hours</div>
+        </div>
+      </div>
+      <div class="pstep" data-s="1">
+        <div class="snum">— How we print / 02</div>
+        <div class="stit">Load-bearing<br><em>Walls</em></div>
+        <div class="sbod">Walls are printed in horizontal passes, 15mm per layer. Structural cavities for insulation and services are formed in-place — no retrofitting.</div>
+        <div class="sspecs">
+          <div class="spec on"><span class="sdot2"></span>Wall thickness — 250mm</div>
+          <div class="spec on"><span class="sdot2"></span>Layer height — 15mm</div>
+          <div class="spec on"><span class="sdot2"></span>Strength — 40MPa</div>
+        </div>
+      </div>
+      <div class="pstep" data-s="2">
+        <div class="snum">— How we print / 03</div>
+        <div class="stit">Openings<br><em>&amp; Windows</em></div>
+        <div class="sbod">Window and door voids are integrated into the print path. No cutting. No block-outs. Lintels are printed simultaneously with the wall.</div>
+        <div class="sspecs">
+          <div class="spec on"><span class="sdot2"></span>Precision — ±2mm</div>
+          <div class="spec on"><span class="sdot2"></span>U-value — 1.1 W/m²K</div>
+          <div class="spec"><span class="sdot2"></span>Frame — TITAN T3</div>
+        </div>
+      </div>
+      <div class="pstep" data-s="3">
+        <div class="snum">— How we print / 04</div>
+        <div class="stit">Roof<br><em>Structure</em></div>
+        <div class="sbod">The gantry spans the full footprint, printing a monolithic roof shell. Heat-reflective mineral finish applied in the same pass.</div>
+        <div class="sspecs">
+          <div class="spec on"><span class="sdot2"></span>Span — up to 14m</div>
+          <div class="spec on"><span class="sdot2"></span>U-value — 0.18 W/m²K</div>
+          <div class="spec on"><span class="sdot2"></span>Thermal mass — high</div>
+        </div>
+      </div>
+      <div class="pstep" data-s="4">
+        <div class="snum">— How we print / 05</div>
+        <div class="stit">Print<br><em>Complete</em></div>
+        <div class="sbod">Structure complete in 7 days. MEP rough-in begins immediately. Fully weathertight from day one. Handover ready within 30 days.</div>
+        <div class="sspecs">
+          <div class="spec on"><span class="sdot2"></span>Print time — 7 days</div>
+          <div class="spec on"><span class="sdot2"></span>Technicians — 2</div>
+          <div class="spec on"><span class="sdot2"></span>Life — 100+ years</div>
+        </div>
+      </div>
+    </div>
+    <div class="print-right">
+      <svg id="hsvg" viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <pattern id="g" width="24" height="24" patternUnits="userSpaceOnUse"><path d="M24 0L0 0 0 24" fill="none" stroke="rgba(100,160,220,0.07)" stroke-width="0.6"/></pattern>
+          <marker id="a1" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="rgba(201,160,116,0.7)"/></marker>
+          <marker id="a2" markerWidth="6" markerHeight="6" refX="1" refY="3" orient="auto"><path d="M6,0 L0,3 L6,6 Z" fill="rgba(201,160,116,0.7)"/></marker>
+        </defs>
+        <rect width="500" height="500" fill="url(#g)"/>
+        <g class="svgl" id="l0">
+          <rect x="80" y="390" width="340" height="36" fill="rgba(201,160,116,0.08)" stroke="#C9A074" stroke-width="1.8"/>
+          <line x1="80" y1="408" x2="420" y2="408" stroke="rgba(201,160,116,0.18)" stroke-width="0.7" stroke-dasharray="8 6"/>
+          <line x1="80" y1="442" x2="420" y2="442" stroke="rgba(201,160,116,0.5)" stroke-width="0.7" marker-start="url(#a2)" marker-end="url(#a1)"/>
+          <text x="250" y="457" fill="rgba(201,160,116,0.8)" font-family="JetBrains Mono,monospace" font-size="10" text-anchor="middle" letter-spacing="1.5">12.0 M</text>
+          <text x="250" y="380" fill="rgba(201,160,116,0.7)" font-family="JetBrains Mono,monospace" font-size="9" text-anchor="middle" letter-spacing="2">FOUNDATION SLAB</text>
+        </g>
+        <g class="svgl" id="l1">
+          <rect x="80" y="210" width="44" height="180" fill="rgba(201,160,116,0.07)" stroke="#C9A074" stroke-width="1.6"/>
+          <rect x="376" y="210" width="44" height="180" fill="rgba(201,160,116,0.07)" stroke="#C9A074" stroke-width="1.6"/>
+          <line x1="96" y1="210" x2="96" y2="390" stroke="rgba(201,160,116,0.18)" stroke-width="0.6" stroke-dasharray="5 5"/>
+          <line x1="110" y1="210" x2="110" y2="390" stroke="rgba(201,160,116,0.18)" stroke-width="0.6" stroke-dasharray="5 5"/>
+          <line x1="390" y1="210" x2="390" y2="390" stroke="rgba(201,160,116,0.18)" stroke-width="0.6" stroke-dasharray="5 5"/>
+          <line x1="404" y1="210" x2="404" y2="390" stroke="rgba(201,160,216,0.18)" stroke-width="0.6" stroke-dasharray="5 5"/>
+          <line x1="46" y1="210" x2="46" y2="390" stroke="rgba(201,160,116,0.5)" stroke-width="0.7" marker-start="url(#a2)" marker-end="url(#a1)"/>
+          <text x="34" y="305" fill="rgba(201,160,116,0.8)" font-family="JetBrains Mono,monospace" font-size="10" text-anchor="middle" letter-spacing="1.5" transform="rotate(-90 34 305)">3.5 M</text>
+        </g>
+        <g class="svgl" id="l2">
+          <rect x="130" y="272" width="70" height="65" fill="rgba(122,171,207,0.08)" stroke="#7AABCF" stroke-width="1.4"/>
+          <line x1="165" y1="272" x2="165" y2="337" stroke="#7AABCF" stroke-width="0.7" opacity="0.5"/>
+          <line x1="130" y1="304" x2="200" y2="304" stroke="#7AABCF" stroke-width="0.7" opacity="0.5"/>
+          <rect x="300" y="272" width="70" height="65" fill="rgba(122,171,207,0.08)" stroke="#7AABCF" stroke-width="1.4"/>
+          <line x1="335" y1="272" x2="335" y2="337" stroke="#7AABCF" stroke-width="0.7" opacity="0.5"/>
+          <line x1="300" y1="304" x2="370" y2="304" stroke="#7AABCF" stroke-width="0.7" opacity="0.5"/>
+          <rect x="215" y="315" width="70" height="75" fill="rgba(122,171,207,0.06)" stroke="#7AABCF" stroke-width="1.4"/>
+          <text x="165" y="262" fill="rgba(122,171,207,0.8)" font-family="JetBrains Mono,monospace" font-size="8.5" text-anchor="middle" letter-spacing="1">WINDOW</text>
+          <text x="250" y="472" fill="rgba(122,171,207,0.8)" font-family="JetBrains Mono,monospace" font-size="8.5" text-anchor="middle" letter-spacing="1">ENTRY</text>
+        </g>
+        <g class="svgl" id="l3">
+          <polygon points="58,210 250,78 442,210" fill="rgba(201,160,116,0.05)" stroke="#C9A074" stroke-width="1.8"/>
+          <line x1="250" y1="78" x2="250" y2="210" stroke="rgba(201,160,116,0.2)" stroke-width="0.8" stroke-dasharray="5 5"/>
+          <line x1="154" y1="144" x2="346" y2="144" stroke="rgba(201,160,116,0.1)" stroke-width="0.7" stroke-dasharray="3 7"/>
+          <text x="270" y="134" fill="rgba(201,160,116,0.6)" font-family="JetBrains Mono,monospace" font-size="9" letter-spacing="1">30°</text>
+        </g>
+        <g class="svgl" id="l4">
+          <rect x="124" y="210" width="252" height="180" fill="rgba(201,160,116,0.03)"/>
+          <rect x="148" y="28" width="204" height="34" fill="none" stroke="rgba(201,160,116,0.28)" stroke-width="1"/>
+          <text x="250" y="51" fill="#C9A074" font-family="JetBrains Mono,monospace" font-size="11" text-anchor="middle" letter-spacing="2.5">✓ PRINT COMPLETE</text>
+        </g>
+      </svg>
+      <div class="pdots" id="pdots">
+        <div class="pdot on"></div><div class="pdot"></div><div class="pdot"></div>
+        <div class="pdot"></div><div class="pdot"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- S4 PROJECTS -->
+<section class="s proj-sec s--light" id="s4">
+  <div class="proj-head">
+    <h2 class="proj-hl r"><em>Printed</em><br>Projects.</h2>
+    <p class="proj-sub r d1">A growing portfolio of delivered work — from Palm Jumeirah to community housing in Sharjah.</p>
+  </div>
+  <div class="proj-strip">
+    <a href="projects.html" class="pcard r"><img class="pcard-img" src="images/project_1.webp" alt=""><div class="pcard-body"><div class="pcard-n">01 / Villa</div><div class="pcard-t"><em>Palm</em> Jumeirah</div><div class="pcard-d">Beachfront villa, 3,200 sq ft. Printed in 9 days.</div></div><div class="pcard-arr"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14M13 5l7 7-7 7"/></svg></div></a>
+    <a href="projects.html" class="pcard r d1"><img class="pcard-img" src="images/project_2.webp" alt=""><div class="pcard-body"><div class="pcard-n">02 / Community</div><div class="pcard-t">Sharjah<br><em>Housing</em></div><div class="pcard-d">48-unit community development. Each unit in 7 days.</div></div><div class="pcard-arr"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14M13 5l7 7-7 7"/></svg></div></a>
+    <a href="projects.html" class="pcard r d2"><img class="pcard-img" src="images/project_3.webp" alt=""><div class="pcard-body"><div class="pcard-n">03 / Pavilion</div><div class="pcard-t">Dubai<br><em>Pavilion</em></div><div class="pcard-d">Cultural pavilion, 1,800 sq ft. Organic form.</div></div><div class="pcard-arr"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14M13 5l7 7-7 7"/></svg></div></a>
+    <a href="projects.html" class="pcard r d3"><img class="pcard-img" src="images/project_4.webp" alt=""><div class="pcard-body"><div class="pcard-n">04 / Villa</div><div class="pcard-t"><em>Abu Dhabi</em><br>Estate</div><div class="pcard-d">Private estate, 5,000 sq ft. 14 days total.</div></div><div class="pcard-arr"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14M13 5l7 7-7 7"/></svg></div></a>
+    <a href="projects.html" class="pcard r d4"><img class="pcard-img" src="images/project_5.webp" alt=""><div class="pcard-body"><div class="pcard-n">05 / Lab</div><div class="pcard-t">Civic<br><em>Research Lab</em></div><div class="pcard-d">UAE Ministry of Infrastructure. 11 days.</div></div><div class="pcard-arr"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14M13 5l7 7-7 7"/></svg></div></a>
+  </div>
+</section>
+
+<!-- S5 MATERIAL -->
+<section class="s material" id="s5">
+  <div class="mat-img"><img src="images/detail_1.webp" alt="TITAN mineral concrete"></div>
+  <div class="mat-content">
+    <div class="mat-lbl r">— The Material</div>
+    <h2 class="mat-h r d1">Engineered<br>for the <em>Gulf.</em></h2>
+    <p class="mat-p r d2">TITAN's mineral concrete mix is specifically formulated for desert climate — extreme heat, UV radiation, and humidity cycles. It does not corrode, warp, or degrade.</p>
+    <div class="mspecs r d3">
+      <div class="msp"><div class="msp-v">40<span class="msp-u">MPa</span></div><div class="msp-l">Compressive strength</div></div>
+      <div class="msp"><div class="msp-v">100<span class="msp-u">yr+</span></div><div class="msp-l">Structural life</div></div>
+      <div class="msp"><div class="msp-v">60<span class="msp-u">%</span></div><div class="msp-l">Less waste</div></div>
+      <div class="msp"><div class="msp-v">7<span class="msp-u">days</span></div><div class="msp-l">To full structure</div></div>
+    </div>
+  </div>
+</section>
+
+
+<!-- MATERIAL PERFORMANCE -->
+<section class="s s--dark" id="s-material">
+  <div style="max-width:1440px;margin:0 auto;padding:clamp(80px,12vh,140px) clamp(40px,5vw,80px)">
+
+    <!-- Header -->
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:clamp(40px,6vw,100px);align-items:end;margin-bottom:clamp(60px,8vh,100px);flex-wrap:wrap">
+      <div>
+        <div class="mat-lbl r" style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--warm);margin-bottom:28px;display:flex;align-items:center;gap:14px">
+          <span style="width:16px;height:1px;background:var(--warm);display:inline-block"></span>
+          — The Material
+        </div>
+        <h2 class="r d1" style="font-family:'Fraunces',serif;font-size:clamp(42px,6vw,82px);font-weight:200;letter-spacing:-.04em;line-height:.92;font-variation-settings:'opsz' 144;color:var(--white)">
+          Engineered to<br><em style="font-style:italic;color:var(--warm)">withstand anything.</em>
+        </h2>
+      </div>
+      <div class="r d2" style="align-self:flex-end">
+        <p style="font-size:clamp(14px,1.1vw,17px);line-height:1.72;color:rgba(245,243,238,.55);max-width:46ch;margin-bottom:32px">
+          TITAN Mineral M1 is not ordinary concrete. It is a proprietary mineral composite engineered specifically for the Gulf — extreme heat, UV radiation, salt air, and humidity cycles. Independently tested. Independently certified.
+        </p>
+        <!-- WATCH VIDEO BUTTON -->
+        <button id="watchVideoBtn" onclick="openVideoModal()" style="display:inline-flex;align-items:center;gap:14px;padding:18px 32px;background:transparent;color:var(--white);font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.16em;text-transform:uppercase;border:1px solid rgba(255,255,255,.3);cursor:pointer;transition:border-color .3s,background .3s,gap .3s var(--ease2)">
+          <span style="width:36px;height:36px;border-radius:50%;border:1px solid var(--warm);display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:background .3s">
+            <svg viewBox="0 0 24 24" fill="var(--warm)" style="width:12px;height:12px;margin-left:2px"><path d="M5 3l14 9-14 9V3z"/></svg>
+          </span>
+          Watch the material test
+        </button>
+      </div>
+    </div>
+
+    <!-- Performance Cards -->
+    <div class="r d2" style="display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.06)">
+
+      <!-- Fire -->
+      <div class="perf-card" style="padding:clamp(32px,4vh,52px) clamp(24px,3vw,40px);background:var(--black);position:relative;overflow:hidden;transition:background .4s;cursor:default">
+        <div style="width:44px;height:44px;border:1px solid rgba(201,160,116,.3);display:flex;align-items:center;justify-content:center;margin-bottom:24px;color:var(--warm)">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="width:20px;height:20px"><path d="M12 2c0 6-6 8-6 14a6 6 0 0 0 12 0c0-6-6-8-6-14z"/><path d="M12 12c0 3-2 4-2 7a2 2 0 0 0 4 0c0-3-2-4-2-7z"/></svg>
+        </div>
+        <div style="font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(--warm);margin-bottom:12px">Fire Resistance</div>
+        <div style="font-family:'Fraunces',serif;font-size:clamp(36px,4.5vw,60px);font-weight:200;letter-spacing:-.03em;line-height:.9;margin-bottom:10px;color:var(--white)">
+          REI<span style="font-size:.45em;font-family:'JetBrains Mono',monospace;color:rgba(255,255,255,.4);vertical-align:super;margin-left:4px"> </span> 240
+        </div>
+        <div style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.35);line-height:1.5">4 hours structural<br>integrity under fire</div>
+      </div>
+
+      <!-- Water -->
+      <div class="perf-card" style="padding:clamp(32px,4vh,52px) clamp(24px,3vw,40px);background:var(--black);position:relative;overflow:hidden;transition:background .4s;cursor:default">
+        <div style="width:44px;height:44px;border:1px solid rgba(201,160,116,.3);display:flex;align-items:center;justify-content:center;margin-bottom:24px;color:var(--warm)">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="width:20px;height:20px"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/></svg>
+        </div>
+        <div style="font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(--warm);margin-bottom:12px">Moisture Resistance</div>
+        <div style="font-family:'Fraunces',serif;font-size:clamp(36px,4.5vw,60px);font-weight:200;letter-spacing:-.03em;line-height:.9;margin-bottom:10px;color:var(--white)">
+          0<span style="font-size:.38em;font-family:'JetBrains Mono',monospace;color:rgba(255,255,255,.4);vertical-align:super">%</span>
+        </div>
+        <div style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.35);line-height:1.5">Water absorption<br>zero porosity</div>
+      </div>
+
+      <!-- Strength -->
+      <div class="perf-card" style="padding:clamp(32px,4vh,52px) clamp(24px,3vw,40px);background:var(--black);position:relative;overflow:hidden;transition:background .4s;cursor:default">
+        <div style="width:44px;height:44px;border:1px solid rgba(201,160,116,.3);display:flex;align-items:center;justify-content:center;margin-bottom:24px;color:var(--warm)">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="width:20px;height:20px"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+        </div>
+        <div style="font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(--warm);margin-bottom:12px">Compressive Strength</div>
+        <div style="font-family:'Fraunces',serif;font-size:clamp(36px,4.5vw,60px);font-weight:200;letter-spacing:-.03em;line-height:.9;margin-bottom:10px;color:var(--white)">
+          40<span style="font-size:.38em;font-family:'JetBrains Mono',monospace;color:rgba(255,255,255,.4);vertical-align:super">MPa</span>
+        </div>
+        <div style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.35);line-height:1.5">Above UAE structural<br>code requirements</div>
+      </div>
+
+      <!-- Heat -->
+      <div class="perf-card" style="padding:clamp(32px,4vh,52px) clamp(24px,3vw,40px);background:var(--black);position:relative;overflow:hidden;transition:background .4s;cursor:default">
+        <div style="width:44px;height:44px;border:1px solid rgba(201,160,116,.3);display:flex;align-items:center;justify-content:center;margin-bottom:24px;color:var(--warm)">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="width:20px;height:20px"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+        </div>
+        <div style="font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(--warm);margin-bottom:12px">Heat Resistance</div>
+        <div style="font-family:'Fraunces',serif;font-size:clamp(36px,4.5vw,60px);font-weight:200;letter-spacing:-.03em;line-height:.9;margin-bottom:10px;color:var(--white)">
+          1500<span style="font-size:.38em;font-family:'JetBrains Mono',monospace;color:rgba(255,255,255,.4);vertical-align:super">°C+</span>
+        </div>
+        <div style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.35);line-height:1.5">Blowtorch direct flame<br>zero structural damage</div>
+      </div>
+
+    </div>
+
+    <!-- Bottom row: UV + Lifespan -->
+    <div class="r d3" style="display:grid;grid-template-columns:1fr 1fr;gap:1px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.06);border-top:none">
+      <div style="padding:clamp(28px,4vh,44px) clamp(24px,3vw,40px);background:var(--black);display:flex;align-items:center;gap:clamp(20px,3vw,40px)">
+        <div>
+          <div style="font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(--warm);margin-bottom:8px">UV Resistance</div>
+          <div style="font-family:'Fraunces',serif;font-size:clamp(28px,3.5vw,48px);font-weight:200;letter-spacing:-.03em;color:var(--white)">Zero degradation</div>
+          <div style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.35);margin-top:6px">Salt air, humidity, direct sun — no effect</div>
+        </div>
+      </div>
+      <div style="padding:clamp(28px,4vh,44px) clamp(24px,3vw,40px);background:var(--black);display:flex;align-items:center;justify-content:space-between;gap:20px">
+        <div>
+          <div style="font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(--warm);margin-bottom:8px">Structural Lifespan</div>
+          <div style="font-family:'Fraunces',serif;font-size:clamp(28px,3.5vw,48px);font-weight:200;letter-spacing:-.03em;color:var(--white)">100+ years</div>
+          <div style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.35);margin-top:6px">Independently modelled &amp; certified</div>
+        </div>
+        <a href="technology.html" style="display:inline-flex;align-items:center;gap:12px;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--warm);white-space:nowrap;border-bottom:1px solid rgba(201,160,116,.3);padding-bottom:3px;transition:gap .3s">
+          Full specs
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="width:12px;height:12px"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+        </a>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- VIDEO MODAL -->
+<div id="vModal" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;z-index:9999;background:rgba(0,0,0,.96)">
+  <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:20px">
+    <div style="width:100%;max-width:960px">
+      <!-- Кнопка закрытия -->
+      <div style="display:flex;justify-content:flex-end;margin-bottom:12px">
+        <button id="vCloseBtn" style="background:none;border:1px solid rgba(255,255,255,.3);color:#fff;font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.14em;text-transform:uppercase;padding:8px 18px;cursor:pointer;display:flex;align-items:center;gap:8px">
+          Close ✕
+        </button>
+      </div>
+      <!-- Видео -->
+      <video id="vPlayer" controls playsinline style="width:100%;height:auto;max-height:75vh;display:block;background:#000">
+        <source src="videos/fire-test.mp4" type="video/mp4">
+      </video>
+      <!-- Подпись -->
+      <div style="padding:12px 0;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.4);border-top:1px solid rgba(255,255,255,.08);margin-top:0">
+        TITAN Mineral M1 — 1500°C+ Fire &amp; Heat Test · Independently certified
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- S6 STATS -->
+<section class="s stats-s s--dark" id="s6">
+  <div class="stats-hd">
+    <h2 class="stats-hl r">By the<br><em>Numbers.</em></h2>
+    <p class="stats-sub r d1">Every metric independently verified. Real numbers — no estimates, no projections.</p>
+  </div>
+  <div class="sgrid" data-counters>
+    <div class="stt r"><div class="stt-n"><span class="counter" data-to="7">0</span><span class="stt-u">days</span></div><div class="stt-l">To print 2,500 sq ft</div></div>
+    <div class="stt r d1"><div class="stt-n"><span class="counter" data-to="40">0</span><span class="stt-u">MPa</span></div><div class="stt-l">Compressive strength</div></div>
+    <div class="stt r d2"><div class="stt-n"><span class="counter" data-to="60">0</span><span class="stt-u">%</span></div><div class="stt-l">Less construction waste</div></div>
+    <div class="stt r d3"><div class="stt-n"><span class="counter" data-to="2">0</span></div><div class="stt-l">Technicians on site</div></div>
+  </div>
+</section>
+
+<!-- S7 CTA -->
+<section class="s cta-s s--light" id="s7">
+  <div class="cta-tag r">— Reservations Open / 2027 Deliveries</div>
+  <h2 class="cta-hl rl"><span>Ready to<br><em>build?</em></span></h2>
+  <p class="cta-p r d1">Available for purchase today. Deliveries beginning 2027 across the GCC.</p>
+  <a href="contact.html" class="cta-btn r d2">Reserve a TITAN<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14M13 5l7 7-7 7"/></svg></a>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="ftop">
+    <div><div class="fbrand"><span class="bdot"></span>TITAN</div><p class="ftag">Intelligent machines building humanity's future. Headquartered in Dubai, UAE.</p></div>
+    <div class="fcol"><h4>Discover</h4><ul><li><a href="technology.html">Technology</a></li><li><a href="build.html">Build</a></li><li><a href="projects.html">Projects</a></li><li><a href="newsroom.html">Newsroom</a></li></ul></div>
+    <div class="fcol"><h4>Company</h4><ul><li><a href="company.html">About</a></li><li><a href="newsroom.html">Press</a></li><li><a href="contact.html">Partners</a></li><li><a href="contact.html">Contact</a></li></ul></div>
+    <div class="fcol"><h4>Newsletter</h4><form class="fnl" id="nlf"><input type="email" placeholder="Your email" id="nle"><button type="submit">Subscribe →</button></form><h4 style="margin-top:24px">Reach Us</h4><p style="font-size:13px;color:rgba(255,255,255,.38);line-height:1.7;margin-top:12px">Dubai Design District<br>Building 6, Dubai, UAE<br><span style="font-family:'JetBrains Mono',monospace;font-size:11px">hello@titan-build.ae</span></p></div>
+  </div>
+  <div class="fbot">
+    <span class="fcopy">© 2026 TITAN — Intelligent Machines Building Humanity's Future</span>
+    <div class="fsoc">
+      <a href="#"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.32 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.79M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z"/></svg></a>
+      <a href="#"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="4"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.5" fill="currentColor"/></svg></a>
+      <a href="#"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M21.58 7.19c-.23-.86-.91-1.54-1.77-1.77C18.25 5 12 5 12 5s-6.25 0-7.81.42c-.86.23-1.54.91-1.77 1.77C2 8.75 2 12 2 12s0 3.25.42 4.81c.23.86.91 1.54 1.77 1.77C5.75 19 12 19 12 19s6.25 0 7.81-.42c.86-.23 1.54-.91 1.77-1.77C22 15.25 22 12 22 12s0-3.25-.42-4.81M10 15V9l5.2 3-5.2 3z"/></svg></a>
+    </div>
+  </div>
+</footer>
+
+<script src="assets/i18n-shared.js"></script>
+<script>
+(function(){
+'use strict';
+
+
+
+/* ── SCROLL PROGRESS ── */
+const spb = document.getElementById('spb');
+function updateProgress(){
+  const max = document.body.scrollHeight - window.innerHeight;
+  spb.style.width = (max>0 ? window.scrollY/max*100 : 0)+'%';
+}
+
+/* ── HERO PARALLAX ── */
+const hbg  = document.getElementById('hbg');
+const hmid = document.querySelector('.hero-mid');
+const hbot = document.querySelector('.hero-bot');
+function updateHero(y){
+  const vh = window.innerHeight;
+  // Меньший коэффициент = меньше смещение = быстрее возврат
+  if(hbg) hbg.style.transform = `scale(1.08) translateY(${y*.10}px)`;
+  if(hmid){ hmid.style.opacity=Math.max(0,1-y/(vh*.6)); hmid.style.transform=`translateY(${y*.08}px)`; }
+  if(hbot) hbot.style.opacity=Math.max(0,1-y/(vh*.75));
+}
+
+/* ── PRINT SEQUENCE ── */
+const pOuter  = document.getElementById('s3');
+const pSticky = document.getElementById('psticky');
+const pSteps  = document.querySelectorAll('.pstep');
+const svgLs   = [0,1,2,3,4].map(i=>document.getElementById('l'+i));
+const pdots   = document.querySelectorAll('.pdot');
+const NS      = pSteps.length;
+let curStep   = -1;
+
+function goStep(s){
+  s=Math.max(0,Math.min(NS-1,s));
+  if(s===curStep) return;
+  curStep=s;
+  pSteps.forEach((el,i)=>el.classList.toggle('on',i===s));
+  svgLs.forEach((l,i)=>{ if(l) l.classList.toggle('on',i<=s); });
+  pdots.forEach((d,i)=>d.classList.toggle('on',i===s));
+  pSticky.classList.toggle('bp',s>=1);
+}
+
+function updatePrint(y){
+  if(!pOuter) return;
+  const scrolled   = y - pOuter.offsetTop;
+  const scrollable = pOuter.offsetHeight - window.innerHeight;
+  const progress   = Math.max(0,Math.min(1, scrolled/scrollable));
+  goStep(Math.min(NS-1, Math.floor(progress*NS)));
+}
+
+/* ── REVEAL ── */
+const revEls = Array.from(document.querySelectorAll('.r,.rl,.man-p'));
+function updateReveal(y){
+  const vh=window.innerHeight;
+  revEls.forEach(el=>{
+    if(el.classList.contains('v')) return;
+    const top = el.getBoundingClientRect().top + y;
+    if(y >= top - vh*.88) el.classList.add('v','vis');
+  });
+}
+
+/* ── COUNTERS ── */
+let cDone=false;
+function updateCounters(y){
+  if(cDone) return;
+  const s6=document.getElementById('s6');
+  if(!s6) return;
+  const top = s6.getBoundingClientRect().top + y;
+  if(y < top - window.innerHeight*.7) return;
+  cDone=true;
+  document.querySelectorAll('.counter').forEach((el,i)=>{
+    const to=parseFloat(el.dataset.to), dur=1800+i*130, t0=performance.now();
+    const ease=t=>1-Math.pow(1-t,4);
+    (function tk(now){ const t=Math.min(1,(now-t0)/dur); el.textContent=Math.round(ease(t)*to); if(t<1) requestAnimationFrame(tk); })(t0);
+  });
+}
+
+/* ── MAIN SCROLL HANDLER ── */
+let ticking=false;
+function onScroll(){
+  if(ticking) return;
+  ticking=true;
+  requestAnimationFrame(()=>{
+    const y=window.scrollY;
+    updateProgress();
+    updateHero(y);
+    updatePrint(y);
+    updateReveal(y);
+    updateCounters(y);
+    ticking=false;
+  });
+}
+window.addEventListener('scroll', onScroll, {passive:true});
+
+/* ── HERO LOAD ── */
+setTimeout(()=>document.getElementById('hero').classList.add('loaded'), 80);
+
+/* ── NEWSLETTER ── */
+document.getElementById('nlf')?.addEventListener('submit',e=>{
+  e.preventDefault();
+  const v=document.getElementById('nle').value.trim();
+  if(!/^[^@]+@[^@]+\.[^@]+$/.test(v)) return;
+  e.target.reset();
+});
+
+/* ── PAGE TRANSITION ── */
+document.querySelectorAll('a[href]').forEach(a=>{
+  const h=a.getAttribute('href');
+  if(!h||h==='#'||h.startsWith('mailto')||h.startsWith('http')) return;
+  a.addEventListener('click',e=>{
+    e.preventDefault();
+    document.body.style.transition='opacity .28s ease';
+    document.body.style.opacity='0';
+    setTimeout(()=>{ location.href=h; },260);
+  });
+});
+
+/* ── INIT ── */
+onScroll();
+
+})();
+</script>
+
+<script>
+// Ждём полной загрузки DOM
+document.addEventListener('DOMContentLoaded', function(){
+
+  var vModal  = document.getElementById('vModal');
+  var vPlayer = document.getElementById('vPlayer');
+  var vCloseBtn = document.getElementById('vCloseBtn');
+
+  // Глобальные функции — вызываются из onclick=""
+  window.openVideoModal = function(){
+    if(!vModal) return;
+    vModal.style.display = 'block';
+    document.body.style.overflow = 'hidden';
+  };
+
+  window.closeVideoModal = function(){
+    if(!vModal) return;
+    vModal.style.display = 'none';
+    document.body.style.overflow = '';
+    if(vPlayer) vPlayer.pause();
+  };
+
+  // Закрытие по кнопке
+  if(vCloseBtn) vCloseBtn.addEventListener('click', window.closeVideoModal);
+
+  // Закрытие по клику на тёмный фон
+  if(vModal){
+    vModal.addEventListener('click', function(e){
+      if(e.target === vModal) window.closeVideoModal();
+    });
+  }
+
+  // Закрытие по ESC
+  document.addEventListener('keydown', function(e){
+    if(e.key === 'Escape') window.closeVideoModal();
+  });
+
+  // Hover на perf-cards
+  document.querySelectorAll('.perf-card').forEach(function(card){
+    card.addEventListener('mouseenter', function(){ card.style.background = 'rgba(255,255,255,.03)'; });
+    card.addEventListener('mouseleave', function(){ card.style.background = 'var(--black)'; });
+  });
+
+  // Hover на кнопку Watch
+  var watchBtn = document.getElementById('watchVideoBtn');
+  if(watchBtn){
+    watchBtn.addEventListener('mouseenter', function(){ watchBtn.style.borderColor = 'var(--warm)'; });
+    watchBtn.addEventListener('mouseleave', function(){ watchBtn.style.borderColor = 'rgba(255,255,255,.3)'; });
+  }
+
+});
+</script>
+</body>
+</html>
