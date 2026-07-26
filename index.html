@@ -882,55 +882,55 @@ onScroll();
 </script>
 
 <script<script>
-var vModal = document.getElementById('vModal');
-var vPlayer = document.getElementById('vPlayer');
-var vCloseBtn = document.getElementById('vCloseBtn');
+// Ждём полной загрузки DOM
+document.addEventListener('DOMContentLoaded', function(){
 
-function openVideoModal(){
-  vModal.style.display = 'block';
-  document.body.style.overflow = 'hidden';
-}
+  var vModal  = document.getElementById('vModal');
+  var vPlayer = document.getElementById('vPlayer');
+  var vCloseBtn = document.getElementById('vCloseBtn');
 
-function closeVideoModal(){
-  vModal.style.display = 'none';
-  document.body.style.overflow = '';
-  vPlayer.pause();
-}
+  // Глобальные функции — вызываются из onclick=""
+  window.openVideoModal = function(){
+    if(!vModal) return;
+    vModal.style.display = 'block';
+    document.body.style.overflow = 'hidden';
+  };
 
-// Закрытие по кнопке
-vCloseBtn.addEventListener('click', closeVideoModal);
+  window.closeVideoModal = function(){
+    if(!vModal) return;
+    vModal.style.display = 'none';
+    document.body.style.overflow = '';
+    if(vPlayer) vPlayer.pause();
+  };
 
-// Закрытие по клику на фон
-vModal.addEventListener('click', function(e){
-  if(e.target === vModal || e.target === vModal.firstElementChild) closeVideoModal();
+  // Закрытие по кнопке
+  if(vCloseBtn) vCloseBtn.addEventListener('click', window.closeVideoModal);
+
+  // Закрытие по клику на тёмный фон
+  if(vModal){
+    vModal.addEventListener('click', function(e){
+      if(e.target === vModal) window.closeVideoModal();
+    });
+  }
+
+  // Закрытие по ESC
+  document.addEventListener('keydown', function(e){
+    if(e.key === 'Escape') window.closeVideoModal();
+  });
+
+  // Hover на perf-cards
+  document.querySelectorAll('.perf-card').forEach(function(card){
+    card.addEventListener('mouseenter', function(){ card.style.background = 'rgba(255,255,255,.03)'; });
+    card.addEventListener('mouseleave', function(){ card.style.background = 'var(--black)'; });
+  });
+
+  // Hover на кнопку Watch
+  var watchBtn = document.getElementById('watchVideoBtn');
+  if(watchBtn){
+    watchBtn.addEventListener('mouseenter', function(){ watchBtn.style.borderColor = 'var(--warm)'; });
+    watchBtn.addEventListener('mouseleave', function(){ watchBtn.style.borderColor = 'rgba(255,255,255,.3)'; });
+  }
+
 });
-
-// Закрытие по ESC
-document.addEventListener('keydown', function(e){
-  if(e.key === 'Escape') closeVideoModal();
-});
-
-/* ── PERF CARDS HOVER ── */
-document.querySelectorAll('.perf-card').forEach(function(card){
-  card.addEventListener('mouseenter', function(){
-    card.style.background = 'rgba(255,255,255,.03)';
-  });
-  card.addEventListener('mouseleave', function(){
-    card.style.background = 'var(--black)';
-  });
-});
-
-/* ── WATCH BTN HOVER ── */
-var watchBtn = document.getElementById('watchVideoBtn');
-if(watchBtn){
-  watchBtn.addEventListener('mouseenter', function(){
-    watchBtn.style.borderColor = 'var(--warm)';
-    watchBtn.style.gap = '20px';
-  });
-  watchBtn.addEventListener('mouseleave', function(){
-    watchBtn.style.borderColor = 'rgba(255,255,255,.3)';
-    watchBtn.style.gap = '14px';
-  });
-}
 </script>
 </body>
