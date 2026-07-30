@@ -386,6 +386,98 @@ body{animation:pgIn .8s var(--ease2) both}
   .hero-bot{padding:16px 24px}
 }
 
+
+
+}
+
+
+/* ═══ MATERIAL VIDEO PLAYER ═══ */
+.mat-video-layout{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:clamp(40px,6vw,90px);
+  align-items:center;
+  margin-bottom:clamp(60px,8vh,100px);
+}
+.mat-video-text{align-self:center}
+.mat-video-player{
+  position:relative;
+  aspect-ratio:4/5;
+  max-height:640px;
+  overflow:hidden;
+  cursor:pointer;
+  background:#000;
+  border:1px solid rgba(255,255,255,.12);
+  box-shadow:0 40px 100px rgba(0,0,0,.5);
+}
+.mat-video-player video{
+  width:100%;height:100%;
+  object-fit:cover;display:block;
+}
+.mv-overlay{
+  position:absolute;inset:0;
+  background:linear-gradient(180deg,rgba(10,10,10,.4) 0%,transparent 25%,transparent 60%,rgba(10,10,10,.9) 100%);
+  transition:background .5s;
+}
+.mat-video-player:hover .mv-overlay{
+  background:linear-gradient(180deg,rgba(10,10,10,.25) 0%,transparent 30%,transparent 60%,rgba(10,10,10,.85) 100%);
+}
+.mv-label{
+  position:absolute;top:26px;left:26px;
+  display:flex;align-items:center;gap:9px;
+  font-family:'JetBrains Mono',monospace;
+  font-size:10px;letter-spacing:.16em;text-transform:uppercase;
+  color:rgba(255,255,255,.95);z-index:2;
+}
+.mv-dot{
+  width:7px;height:7px;border-radius:50%;
+  background:#C9A074;display:inline-block;
+  animation:mvPulse 1.8s ease infinite;
+}
+@keyframes mvPulse{
+  0%{box-shadow:0 0 0 0 rgba(201,160,116,.6)}
+  70%{box-shadow:0 0 0 10px rgba(201,160,116,0)}
+  100%{box-shadow:0 0 0 0 rgba(201,160,116,0)}
+}
+.mv-play{
+  position:absolute;top:50%;left:50%;
+  transform:translate(-50%,-50%);
+  width:80px;height:80px;border-radius:50%;
+  background:rgba(255,255,255,.14);
+  backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+  border:1px solid rgba(255,255,255,.4);
+  display:flex;align-items:center;justify-content:center;
+  color:#fff;z-index:2;
+  transition:transform .4s cubic-bezier(0.16,1,0.3,1),background .4s,border-color .4s;
+}
+.mv-play svg{width:24px;height:24px;margin-left:4px}
+.mat-video-player:hover .mv-play{
+  transform:translate(-50%,-50%) scale(1.14);
+  background:#C9A074;border-color:#C9A074;
+}
+.mv-caption{
+  position:absolute;bottom:28px;left:26px;right:26px;
+  z-index:2;
+  transition:transform .4s cubic-bezier(0.16,1,0.3,1);
+}
+.mat-video-player:hover .mv-caption{transform:translateY(-4px)}
+.mv-caption-title{
+  font-family:'Fraunces',serif;
+  font-size:22px;font-weight:300;letter-spacing:-.01em;
+  color:#fff;margin-bottom:8px;
+}
+.mv-caption-sub{
+  font-family:'JetBrains Mono',monospace;
+  font-size:10px;letter-spacing:.14em;text-transform:uppercase;
+  color:rgba(255,255,255,.55);
+}
+@media(max-width:860px){
+  .mat-video-layout{grid-template-columns:1fr;gap:40px}
+  .mat-video-player{aspect-ratio:16/12;max-height:none}
+  .mv-play{width:64px;height:64px}
+  .mv-caption-title{font-size:19px}
+}
+
 </style>
 </head>
 <body>
@@ -425,6 +517,120 @@ body{animation:pgIn .8s var(--ease2) both}
     <div class="scr">Scroll<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 5v14M5 12l7 7 7-7"/></svg></div>
   </div>
 </section>
+
+<!-- MATERIAL PERFORMANCE -->
+<section class="s s--dark" id="s-material">
+  <div style="max-width:1440px;margin:0 auto;padding:clamp(80px,12vh,140px) clamp(40px,5vw,80px)">
+
+    <!-- Header with VIDEO PLAYER -->
+    <div class="mat-video-layout">
+      <!-- Left: text -->
+      <div class="mat-video-text">
+        <div class="mat-lbl r" style="font-family:JetBrains Mono,monospace;font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--warm);margin-bottom:28px;display:flex;align-items:center;gap:14px">
+          <span style="width:16px;height:1px;background:var(--warm);display:inline-block"></span>
+          — The Material
+        </div>
+        <h2 class="r d1" style="font-family:Fraunces,serif;font-size:clamp(42px,6vw,82px);font-weight:200;letter-spacing:-.04em;line-height:.92;font-variation-settings:&quot;opsz&quot; 144;color:var(--white);margin-bottom:32px">
+          Engineered to<br><em style="font-style:italic;color:var(--warm)">withstand anything.</em>
+        </h2>
+        <p class="r d2" style="font-size:clamp(14px,1.1vw,17px);line-height:1.72;color:rgba(245,243,238,.55);max-width:44ch">
+          TITAN Mineral M1 is not ordinary concrete. It is a proprietary mineral composite engineered specifically for the Gulf — extreme heat, UV radiation, salt air, and humidity cycles. Independently tested. Independently certified.
+        </p>
+      </div>
+
+      <!-- Right: VIDEO PLAYER (main element) -->
+      <div class="mat-video-player r d2" id="matVideo" onclick="openVideoModal()">
+        <video id="previewVideo" autoplay muted loop playsinline preload="auto">
+          <source src="videos/fire-test.mp4" type="video/mp4">
+        </video>
+        <div class="mv-overlay"></div>
+        <div class="mv-label"><span class="mv-dot"></span>Live — 1500°C+ Fire Test</div>
+        <div class="mv-play"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M5 3l14 9-14 9V3z"/></svg></div>
+        <div class="mv-caption">
+          <div class="mv-caption-title">Watch the full material test</div>
+          <div class="mv-caption-sub">Tap to play with sound →</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Performance Cards -->
+    <div class="r d2" style="display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.06)">
+
+      <!-- Fire -->
+      <div class="perf-card" style="padding:clamp(32px,4vh,52px) clamp(24px,3vw,40px);background:var(--black);position:relative;overflow:hidden;transition:background .4s;cursor:default">
+        <div style="width:44px;height:44px;border:1px solid rgba(201,160,116,.3);display:flex;align-items:center;justify-content:center;margin-bottom:24px;color:var(--warm)">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="width:20px;height:20px"><path d="M12 2c0 6-6 8-6 14a6 6 0 0 0 12 0c0-6-6-8-6-14z"/><path d="M12 12c0 3-2 4-2 7a2 2 0 0 0 4 0c0-3-2-4-2-7z"/></svg>
+        </div>
+        <div style="font-family:JetBrains Mono,monospace;font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(--warm);margin-bottom:12px">Fire Resistance</div>
+        <div style="font-family:Fraunces,serif;font-size:clamp(36px,4.5vw,60px);font-weight:200;letter-spacing:-.03em;line-height:.9;margin-bottom:10px;color:var(--white)">
+          REI<span style="font-size:.45em;font-family:JetBrains Mono,monospace;color:rgba(255,255,255,.4);vertical-align:super;margin-left:4px"> </span> 240
+        </div>
+        <div style="font-family:JetBrains Mono,monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.35);line-height:1.5">4 hours structural<br>integrity under fire</div>
+      </div>
+
+      <!-- Water -->
+      <div class="perf-card" style="padding:clamp(32px,4vh,52px) clamp(24px,3vw,40px);background:var(--black);position:relative;overflow:hidden;transition:background .4s;cursor:default">
+        <div style="width:44px;height:44px;border:1px solid rgba(201,160,116,.3);display:flex;align-items:center;justify-content:center;margin-bottom:24px;color:var(--warm)">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="width:20px;height:20px"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/></svg>
+        </div>
+        <div style="font-family:JetBrains Mono,monospace;font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(--warm);margin-bottom:12px">Moisture Resistance</div>
+        <div style="font-family:Fraunces,serif;font-size:clamp(36px,4.5vw,60px);font-weight:200;letter-spacing:-.03em;line-height:.9;margin-bottom:10px;color:var(--white)">
+          0<span style="font-size:.38em;font-family:JetBrains Mono,monospace;color:rgba(255,255,255,.4);vertical-align:super">%</span>
+        </div>
+        <div style="font-family:JetBrains Mono,monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.35);line-height:1.5">Water absorption<br>zero porosity</div>
+      </div>
+
+      <!-- Strength -->
+      <div class="perf-card" style="padding:clamp(32px,4vh,52px) clamp(24px,3vw,40px);background:var(--black);position:relative;overflow:hidden;transition:background .4s;cursor:default">
+        <div style="width:44px;height:44px;border:1px solid rgba(201,160,116,.3);display:flex;align-items:center;justify-content:center;margin-bottom:24px;color:var(--warm)">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="width:20px;height:20px"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+        </div>
+        <div style="font-family:JetBrains Mono,monospace;font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(--warm);margin-bottom:12px">Compressive Strength</div>
+        <div style="font-family:Fraunces,serif;font-size:clamp(36px,4.5vw,60px);font-weight:200;letter-spacing:-.03em;line-height:.9;margin-bottom:10px;color:var(--white)">
+          40<span style="font-size:.38em;font-family:JetBrains Mono,monospace;color:rgba(255,255,255,.4);vertical-align:super">MPa</span>
+        </div>
+        <div style="font-family:JetBrains Mono,monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.35);line-height:1.5">Above UAE structural<br>code requirements</div>
+      </div>
+
+      <!-- Heat -->
+      <div class="perf-card" style="padding:clamp(32px,4vh,52px) clamp(24px,3vw,40px);background:var(--black);position:relative;overflow:hidden;transition:background .4s;cursor:default">
+        <div style="width:44px;height:44px;border:1px solid rgba(201,160,116,.3);display:flex;align-items:center;justify-content:center;margin-bottom:24px;color:var(--warm)">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="width:20px;height:20px"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+        </div>
+        <div style="font-family:JetBrains Mono,monospace;font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(--warm);margin-bottom:12px">Heat Resistance</div>
+        <div style="font-family:Fraunces,serif;font-size:clamp(36px,4.5vw,60px);font-weight:200;letter-spacing:-.03em;line-height:.9;margin-bottom:10px;color:var(--white)">
+          1500<span style="font-size:.38em;font-family:JetBrains Mono,monospace;color:rgba(255,255,255,.4);vertical-align:super">°C+</span>
+        </div>
+        <div style="font-family:JetBrains Mono,monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.35);line-height:1.5">Blowtorch direct flame<br>zero structural damage</div>
+      </div>
+
+    </div>
+
+    <!-- Bottom row: UV + Lifespan -->
+    <div class="r d3" style="display:grid;grid-template-columns:1fr 1fr;gap:1px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.06);border-top:none">
+      <div style="padding:clamp(28px,4vh,44px) clamp(24px,3vw,40px);background:var(--black);display:flex;align-items:center;gap:clamp(20px,3vw,40px)">
+        <div>
+          <div style="font-family:JetBrains Mono,monospace;font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(--warm);margin-bottom:8px">UV Resistance</div>
+          <div style="font-family:Fraunces,serif;font-size:clamp(28px,3.5vw,48px);font-weight:200;letter-spacing:-.03em;color:var(--white)">Zero degradation</div>
+          <div style="font-family:JetBrains Mono,monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.35);margin-top:6px">Salt air, humidity, direct sun — no effect</div>
+        </div>
+      </div>
+      <div style="padding:clamp(28px,4vh,44px) clamp(24px,3vw,40px);background:var(--black);display:flex;align-items:center;justify-content:space-between;gap:20px">
+        <div>
+          <div style="font-family:JetBrains Mono,monospace;font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(--warm);margin-bottom:8px">Structural Lifespan</div>
+          <div style="font-family:Fraunces,serif;font-size:clamp(28px,3.5vw,48px);font-weight:200;letter-spacing:-.03em;color:var(--white)">100+ years</div>
+          <div style="font-family:JetBrains Mono,monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.35);margin-top:6px">Independently modelled &amp; certified</div>
+        </div>
+        <a href="technology.html" style="display:inline-flex;align-items:center;gap:12px;font-family:JetBrains Mono,monospace;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--warm);white-space:nowrap;border-bottom:1px solid rgba(201,160,116,.3);padding-bottom:3px;transition:gap .3s">
+          Full specs
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="width:12px;height:12px"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+        </a>
+      </div>
+    </div>
+
+  </div>
+</section>
+
 
 <!-- S2 MANIFESTO -->
 <section class="s s--light" id="s2" style="height:180vh">
@@ -569,131 +775,32 @@ body{animation:pgIn .8s var(--ease2) both}
   </div>
 </section>
 
-<!-- S5 MATERIAL -->
-<section class="s material" id="s5">
-  <div class="mat-img"><img src="images/detail_1.webp" alt="TITAN mineral concrete"></div>
-  <div class="mat-content">
-    <div class="mat-lbl r">— The Material</div>
-    <h2 class="mat-h r d1">Engineered<br>for the <em>Gulf.</em></h2>
-    <p class="mat-p r d2">TITAN's mineral concrete mix is specifically formulated for desert climate — extreme heat, UV radiation, and humidity cycles. It does not corrode, warp, or degrade.</p>
-    <div class="mspecs r d3">
-      <div class="msp"><div class="msp-v">40<span class="msp-u">MPa</span></div><div class="msp-l">Compressive strength</div></div>
-      <div class="msp"><div class="msp-v">100<span class="msp-u">yr+</span></div><div class="msp-l">Structural life</div></div>
-      <div class="msp"><div class="msp-v">60<span class="msp-u">%</span></div><div class="msp-l">Less waste</div></div>
-      <div class="msp"><div class="msp-v">7<span class="msp-u">days</span></div><div class="msp-l">To full structure</div></div>
-    </div>
-  </div>
-</section>
 
 
-<!-- MATERIAL PERFORMANCE -->
-<section class="s s--dark" id="s-material">
-  <div style="max-width:1440px;margin:0 auto;padding:clamp(80px,12vh,140px) clamp(40px,5vw,80px)">
 
-    <!-- Header -->
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:clamp(40px,6vw,100px);align-items:end;margin-bottom:clamp(60px,8vh,100px);flex-wrap:wrap">
-      <div>
-        <div class="mat-lbl r" style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--warm);margin-bottom:28px;display:flex;align-items:center;gap:14px">
-          <span style="width:16px;height:1px;background:var(--warm);display:inline-block"></span>
-          — The Material
-        </div>
-        <h2 class="r d1" style="font-family:'Fraunces',serif;font-size:clamp(42px,6vw,82px);font-weight:200;letter-spacing:-.04em;line-height:.92;font-variation-settings:'opsz' 144;color:var(--white)">
-          Engineered to<br><em style="font-style:italic;color:var(--warm)">withstand anything.</em>
-        </h2>
-      </div>
-      <div class="r d2" style="align-self:flex-end">
-        <p style="font-size:clamp(14px,1.1vw,17px);line-height:1.72;color:rgba(245,243,238,.55);max-width:46ch;margin-bottom:32px">
-          TITAN Mineral M1 is not ordinary concrete. It is a proprietary mineral composite engineered specifically for the Gulf — extreme heat, UV radiation, salt air, and humidity cycles. Independently tested. Independently certified.
-        </p>
-        <!-- WATCH VIDEO BUTTON -->
-        <button id="watchVideoBtn" onclick="openVideoModal()" style="display:inline-flex;align-items:center;gap:14px;padding:18px 32px;background:transparent;color:var(--white);font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.16em;text-transform:uppercase;border:1px solid rgba(255,255,255,.3);cursor:pointer;transition:border-color .3s,background .3s,gap .3s var(--ease2)">
-          <span style="width:36px;height:36px;border-radius:50%;border:1px solid var(--warm);display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:background .3s">
-            <svg viewBox="0 0 24 24" fill="var(--warm)" style="width:12px;height:12px;margin-left:2px"><path d="M5 3l14 9-14 9V3z"/></svg>
-          </span>
-          Watch the material test
+
+
+<!-- VIDEO MODAL -->
+<div id="vModal" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;z-index:9999;background:rgba(0,0,0,.96)">
+  <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:20px">
+    <div style="width:100%;max-width:960px">
+      <!-- Кнопка закрытия -->
+      <div style="display:flex;justify-content:flex-end;margin-bottom:12px">
+        <button id="vCloseBtn" style="background:none;border:1px solid rgba(255,255,255,.3);color:#fff;font-family:JetBrains Mono,monospace;font-size:11px;letter-spacing:.14em;text-transform:uppercase;padding:8px 18px;cursor:pointer;display:flex;align-items:center;gap:8px">
+          Close ✕
         </button>
       </div>
-    </div>
-
-    <!-- Performance Cards -->
-    <div class="r d2" style="display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.06)">
-
-      <!-- Fire -->
-      <div class="perf-card" style="padding:clamp(32px,4vh,52px) clamp(24px,3vw,40px);background:var(--black);position:relative;overflow:hidden;transition:background .4s;cursor:default">
-        <div style="width:44px;height:44px;border:1px solid rgba(201,160,116,.3);display:flex;align-items:center;justify-content:center;margin-bottom:24px;color:var(--warm)">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="width:20px;height:20px"><path d="M12 2c0 6-6 8-6 14a6 6 0 0 0 12 0c0-6-6-8-6-14z"/><path d="M12 12c0 3-2 4-2 7a2 2 0 0 0 4 0c0-3-2-4-2-7z"/></svg>
-        </div>
-        <div style="font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(--warm);margin-bottom:12px">Fire Resistance</div>
-        <div style="font-family:'Fraunces',serif;font-size:clamp(36px,4.5vw,60px);font-weight:200;letter-spacing:-.03em;line-height:.9;margin-bottom:10px;color:var(--white)">
-          REI<span style="font-size:.45em;font-family:'JetBrains Mono',monospace;color:rgba(255,255,255,.4);vertical-align:super;margin-left:4px"> </span> 240
-        </div>
-        <div style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.35);line-height:1.5">4 hours structural<br>integrity under fire</div>
-      </div>
-
-      <!-- Water -->
-      <div class="perf-card" style="padding:clamp(32px,4vh,52px) clamp(24px,3vw,40px);background:var(--black);position:relative;overflow:hidden;transition:background .4s;cursor:default">
-        <div style="width:44px;height:44px;border:1px solid rgba(201,160,116,.3);display:flex;align-items:center;justify-content:center;margin-bottom:24px;color:var(--warm)">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="width:20px;height:20px"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/></svg>
-        </div>
-        <div style="font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(--warm);margin-bottom:12px">Moisture Resistance</div>
-        <div style="font-family:'Fraunces',serif;font-size:clamp(36px,4.5vw,60px);font-weight:200;letter-spacing:-.03em;line-height:.9;margin-bottom:10px;color:var(--white)">
-          0<span style="font-size:.38em;font-family:'JetBrains Mono',monospace;color:rgba(255,255,255,.4);vertical-align:super">%</span>
-        </div>
-        <div style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.35);line-height:1.5">Water absorption<br>zero porosity</div>
-      </div>
-
-      <!-- Strength -->
-      <div class="perf-card" style="padding:clamp(32px,4vh,52px) clamp(24px,3vw,40px);background:var(--black);position:relative;overflow:hidden;transition:background .4s;cursor:default">
-        <div style="width:44px;height:44px;border:1px solid rgba(201,160,116,.3);display:flex;align-items:center;justify-content:center;margin-bottom:24px;color:var(--warm)">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="width:20px;height:20px"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
-        </div>
-        <div style="font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(--warm);margin-bottom:12px">Compressive Strength</div>
-        <div style="font-family:'Fraunces',serif;font-size:clamp(36px,4.5vw,60px);font-weight:200;letter-spacing:-.03em;line-height:.9;margin-bottom:10px;color:var(--white)">
-          40<span style="font-size:.38em;font-family:'JetBrains Mono',monospace;color:rgba(255,255,255,.4);vertical-align:super">MPa</span>
-        </div>
-        <div style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.35);line-height:1.5">Above UAE structural<br>code requirements</div>
-      </div>
-
-      <!-- Heat -->
-      <div class="perf-card" style="padding:clamp(32px,4vh,52px) clamp(24px,3vw,40px);background:var(--black);position:relative;overflow:hidden;transition:background .4s;cursor:default">
-        <div style="width:44px;height:44px;border:1px solid rgba(201,160,116,.3);display:flex;align-items:center;justify-content:center;margin-bottom:24px;color:var(--warm)">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="width:20px;height:20px"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
-        </div>
-        <div style="font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(--warm);margin-bottom:12px">Heat Resistance</div>
-        <div style="font-family:'Fraunces',serif;font-size:clamp(36px,4.5vw,60px);font-weight:200;letter-spacing:-.03em;line-height:.9;margin-bottom:10px;color:var(--white)">
-          1500<span style="font-size:.38em;font-family:'JetBrains Mono',monospace;color:rgba(255,255,255,.4);vertical-align:super">°C+</span>
-        </div>
-        <div style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.35);line-height:1.5">Blowtorch direct flame<br>zero structural damage</div>
-      </div>
-
-    </div>
-
-    <!-- Bottom row: UV + Lifespan -->
-    <div class="r d3" style="display:grid;grid-template-columns:1fr 1fr;gap:1px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.06);border-top:none">
-      <div style="padding:clamp(28px,4vh,44px) clamp(24px,3vw,40px);background:var(--black);display:flex;align-items:center;gap:clamp(20px,3vw,40px)">
-        <div>
-          <div style="font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(--warm);margin-bottom:8px">UV Resistance</div>
-          <div style="font-family:'Fraunces',serif;font-size:clamp(28px,3.5vw,48px);font-weight:200;letter-spacing:-.03em;color:var(--white)">Zero degradation</div>
-          <div style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.35);margin-top:6px">Salt air, humidity, direct sun — no effect</div>
-        </div>
-      </div>
-      <div style="padding:clamp(28px,4vh,44px) clamp(24px,3vw,40px);background:var(--black);display:flex;align-items:center;justify-content:space-between;gap:20px">
-        <div>
-          <div style="font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(--warm);margin-bottom:8px">Structural Lifespan</div>
-          <div style="font-family:'Fraunces',serif;font-size:clamp(28px,3.5vw,48px);font-weight:200;letter-spacing:-.03em;color:var(--white)">100+ years</div>
-          <div style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.35);margin-top:6px">Independently modelled &amp; certified</div>
-        </div>
-        <a href="technology.html" style="display:inline-flex;align-items:center;gap:12px;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--warm);white-space:nowrap;border-bottom:1px solid rgba(201,160,116,.3);padding-bottom:3px;transition:gap .3s">
-          Full specs
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="width:12px;height:12px"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
-        </a>
+      <!-- Видео -->
+      <video id="vPlayer" controls playsinline style="width:100%;height:auto;max-height:75vh;display:block;background:#000">
+        <source src="videos/fire-test.mp4" type="video/mp4">
+      </video>
+      <!-- Подпись -->
+      <div style="padding:12px 0;font-family:JetBrains Mono,monospace;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.4);border-top:1px solid rgba(255,255,255,.08);margin-top:0">
+        TITAN Mineral M1 — 1500°C+ Fire &amp; Heat Test · Independently certified
       </div>
     </div>
-
   </div>
-</section>
-
-
+</div>
 
 <!-- S6 STATS -->
 <section class="s stats-s s--dark" id="s6">
@@ -723,7 +830,7 @@ body{animation:pgIn .8s var(--ease2) both}
     <div><div class="fbrand"><span class="bdot"></span>TITAN</div><p class="ftag">Intelligent machines building humanity's future. Headquartered in Dubai, UAE.</p></div>
     <div class="fcol"><h4>Discover</h4><ul><li><a href="technology.html">Technology</a></li><li><a href="build.html">Build</a></li><li><a href="projects.html">Projects</a></li><li><a href="newsroom.html">Newsroom</a></li></ul></div>
     <div class="fcol"><h4>Company</h4><ul><li><a href="company.html">About</a></li><li><a href="newsroom.html">Press</a></li><li><a href="contact.html">Partners</a></li><li><a href="contact.html">Contact</a></li></ul></div>
-    <div class="fcol"><h4>Newsletter</h4><form class="fnl" id="nlf"><input type="email" placeholder="Your email" id="nle"><button type="submit">Subscribe →</button></form><h4 style="margin-top:24px">Reach Us</h4><p style="font-size:13px;color:rgba(255,255,255,.38);line-height:1.7;margin-top:12px">Dubai Design District<br>Building 6, Dubai, UAE<br><span style="font-family:'JetBrains Mono',monospace;font-size:11px">hello@titan-build.ae</span></p></div>
+    <div class="fcol"><h4>Newsletter</h4><form class="fnl" id="nlf"><input type="email" placeholder="Your email" id="nle"><button type="submit">Subscribe →</button></form><h4 style="margin-top:24px">Reach Us</h4><p style="font-size:13px;color:rgba(255,255,255,.38);line-height:1.7;margin-top:12px">Dubai Design District<br>Building 6, Dubai, UAE<br><span style="font-family:JetBrains Mono,monospace;font-size:11px">hello@titan-build.ae</span></p></div>
   </div>
   <div class="fbot">
     <span class="fcopy">© 2026 TITAN — Intelligent Machines Building Humanity's Future</span>
@@ -868,27 +975,37 @@ document.addEventListener('DOMContentLoaded', function(){
   var vModal  = document.getElementById('vModal');
   var vPlayer = document.getElementById('vPlayer');
   var vCloseBtn = document.getElementById('vCloseBtn');
+  var previewVideo = document.getElementById('previewVideo');
 
-  // Глобальные функции — вызываются из onclick=""
-  // Переносим модал напрямую в body чтобы position:fixed работал корректно
+  // Переносим модал в body чтобы position:fixed работал корректно
   if(vModal && vModal.parentElement !== document.body){
     document.body.appendChild(vModal);
   }
 
+  // Автоплей превью (мобильные капризны — пробуем настойчиво)
+  if(previewVideo){
+    previewVideo.muted = true;
+    previewVideo.setAttribute('muted','');
+    previewVideo.playsInline = true;
+    function playPreview(){ previewVideo.play().catch(function(){}); }
+    if(previewVideo.readyState >= 2) playPreview();
+    else previewVideo.addEventListener('loadeddata', playPreview, {once:true});
+    // Резервный запуск при первом касании
+    var kick = function(){ playPreview(); document.removeEventListener('touchstart',kick); document.removeEventListener('click',kick); };
+    document.addEventListener('touchstart', kick, {once:true});
+    document.addEventListener('click', kick, {once:true});
+  }
+
+  // Глобальные функции — вызываются из onclick=""
   window.openVideoModal = function(){
     if(!vModal) return;
     vModal.style.display = 'block';
     vModal.style.position = 'fixed';
-    vModal.style.top = '0';
-    vModal.style.left = '0';
-    vModal.style.width = '100%';
-    vModal.style.height = '100%';
+    vModal.style.top = '0'; vModal.style.left = '0';
+    vModal.style.width = '100%'; vModal.style.height = '100%';
     document.body.style.overflow = 'hidden';
-    // Пробуем запустить видео
-    if(vPlayer){
-      vPlayer.currentTime = 0;
-      vPlayer.play().catch(function(){});
-    }
+    if(previewVideo) previewVideo.pause();
+    if(vPlayer){ vPlayer.currentTime = 0; vPlayer.muted = false; vPlayer.play().catch(function(){}); }
   };
 
   window.closeVideoModal = function(){
@@ -896,6 +1013,7 @@ document.addEventListener('DOMContentLoaded', function(){
     vModal.style.display = 'none';
     document.body.style.overflow = '';
     if(vPlayer) vPlayer.pause();
+    if(previewVideo) previewVideo.play().catch(function(){});
   };
 
   // Закрытие по кнопке
@@ -928,28 +1046,5 @@ document.addEventListener('DOMContentLoaded', function(){
 
 });
 </script>
-
-<!-- VIDEO MODAL -->
-<div id="vModal" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;z-index:9999;background:rgba(0,0,0,.96)">
-  <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:20px">
-    <div style="width:100%;max-width:960px">
-      <!-- Кнопка закрытия -->
-      <div style="display:flex;justify-content:flex-end;margin-bottom:12px">
-        <button id="vCloseBtn" style="background:none;border:1px solid rgba(255,255,255,.3);color:#fff;font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.14em;text-transform:uppercase;padding:8px 18px;cursor:pointer;display:flex;align-items:center;gap:8px">
-          Close ✕
-        </button>
-      </div>
-      <!-- Видео -->
-      <video id="vPlayer" controls playsinline style="width:100%;height:auto;max-height:75vh;display:block;background:#000">
-        <source src="videos/fire-test.mp4" type="video/mp4">
-      </video>
-      <!-- Подпись -->
-      <div style="padding:12px 0;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.4);border-top:1px solid rgba(255,255,255,.08);margin-top:0">
-        TITAN Mineral M1 — 1500°C+ Fire &amp; Heat Test · Independently certified
-      </div>
-    </div>
-  </div>
-</div>
-
 </body>
 </html>
